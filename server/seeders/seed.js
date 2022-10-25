@@ -10,5 +10,6 @@ db.once('open', async () => {
     console.error(err);
     process.exit(1);
   }
+  console.log("database seeded :)");
   process.exit(0);
 });
