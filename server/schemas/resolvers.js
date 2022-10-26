@@ -17,20 +17,11 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    // notes: async (parent, args, context) => {  save if applicable
-    //   const users = await User.find();
-
-    //   const list = [];
-    //   for (item of users) {
-    //     list.push(item.notes);
-    //   }
-
-    //   console.log(list);
-    //   return users;
-    // }
   },
 
   Mutation: {
+
+    //User Mutations
     addUser: async (_, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -53,11 +44,12 @@ const resolvers = {
 
       return { token, user };
     },
+
+    //Note Mutations
     addNote: async (parent, args, context) => {
-      console.log(format(Date.now()));
       const user = await User.findOneAndUpdate(
         { _id: args.id },
-        { $addToSet: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()) } } },
+        { $addToSet: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true }
       );
       return user;
@@ -65,7 +57,7 @@ const resolvers = {
     deleteNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
         { _id: args.userId },
-        { $pull: { notes: { _id: args.noteId,  } } },
+        { $pull: { notes: { _id: args.noteId, } } },
         { new: true },
       );
       console.log(user);
@@ -74,10 +66,32 @@ const resolvers = {
     editNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
         { "_id": args.userId, "notes._id": args.noteId },
-        { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()) } } },
+        { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true },
       );
       console.log(user);
+      return user;
+    },
+
+    //List Mutations
+    addList: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { "_id": args.id },
+        { $addToSet: { lists: { 
+          title: args.title,
+          createdAt: format(Date.now()),
+          isPublic: args.isPublic,
+          listItems: [args.listItems[0]]
+        } 
+        } 
+        },
+        { new: true }
+      )
+
+
+
+
+
       return user;
     }
   }
