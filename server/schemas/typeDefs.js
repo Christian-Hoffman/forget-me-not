@@ -5,7 +5,9 @@ const typeDefs = gql`
     _id: ID
     title: String
     body: String
+    createdAt: String
   }
+
   type User {
     _id: ID
     username: String

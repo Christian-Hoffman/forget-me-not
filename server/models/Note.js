@@ -1,4 +1,5 @@
 const { Schema } = require("mongoose");
+const format = require("../utils/dateFormat");
 
 const noteSchema = new Schema({
   title: {
@@ -12,6 +13,7 @@ const noteSchema = new Schema({
   },
   createdAt: {
     type: Date,
+    default: Date.now().format,
   }
 })
 
