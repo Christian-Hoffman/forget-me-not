@@ -31,7 +31,7 @@ const typeDefs = gql`
     login(email:String!, password:String!): Auth
     addNote(id: ID!, title: String!, body: String!): User
     deleteNote(userId: ID!, noteId: ID!): User
-    editNote(id: ID!, title: String!, body: String): User
+    editNote(userId: ID!, noteId: ID!, title: String!, body: String!): User
   }
 `;
 // notes: [Note] save if applicable

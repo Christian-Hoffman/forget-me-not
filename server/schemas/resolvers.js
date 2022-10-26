@@ -69,6 +69,15 @@ const resolvers = {
       );
       console.log(user);
       return user;
+    },
+    editNote: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { "_id": args.userId, "notes._id" : args.noteId },
+        { $set: { notes: {title: args.title, body: args.body } } },
+        { new: true },
+      );
+      console.log(user);
+      return user;
     }
   }
 };
