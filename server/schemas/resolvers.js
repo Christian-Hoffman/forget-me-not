@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const format = require("../utils/dateFormat");
 
 const resolvers = {
   Query: {
@@ -53,18 +54,18 @@ const resolvers = {
       return { token, user };
     },
     addNote: async (parent, args, context) => {
+      console.log(format(Date.now()));
       const user = await User.findOneAndUpdate(
         { _id: args.id },
-        { $addToSet: { notes: { title: args.title, body: args.body } } },
+        { $addToSet: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()) } } },
         { new: true }
       );
-      console.log(user);
       return user;
     },
     deleteNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
         { _id: args.userId },
-        { $pull: { notes: { _id: args.noteId } } },
+        { $pull: { notes: { _id: args.noteId,  } } },
         { new: true },
       );
       console.log(user);
@@ -72,8 +73,8 @@ const resolvers = {
     },
     editNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
-        { "_id": args.userId, "notes._id" : args.noteId },
-        { $set: { notes: {title: args.title, body: args.body } } },
+        { "_id": args.userId, "notes._id": args.noteId },
+        { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()) } } },
         { new: true },
       );
       console.log(user);
