@@ -8,25 +8,26 @@ import {
   Card,
   SimpleGrid,
   Container,
+  List,
 } from "@mantine/core";
 
-const mockdata = [
-  {
-    title: "Extreme performance",
-    description:
-      "This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit",
-  },
-  {
-    title: "Privacy focused",
-    description:
-      "People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma",
-  },
-  {
-    title: "No third parties",
-    description:
-      "They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves",
-  },
-];
+// const mockdata = [
+//   {
+//     title: "Extreme performance",
+//     description:
+//       "This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit",
+//   },
+//   {
+//     title: "Privacy focused",
+//     description:
+//       "People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma",
+//   },
+//   {
+//     title: "No third parties",
+//     description:
+//       "They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves",
+//   },
+// ];
 
 const Homebody = () => {
   const useStyles = createStyles((theme) => ({
@@ -55,10 +56,11 @@ const Homebody = () => {
     },
 
     card: {
-      border: `1px solid ${theme.colorScheme === "dark"
+      border: `1px solid ${
+        theme.colorScheme === "dark"
           ? theme.colors.dark[5]
           : theme.colors.gray[1]
-        }`,
+      }`,
     },
 
     cardTitle: {
@@ -97,27 +99,65 @@ const Homebody = () => {
       </Text>
 
       <SimpleGrid
-        cols={3}
+        cols={2}
         spacing="xl"
         mt={50}
         breakpoints={[{ maxWidth: "md", cols: 1 }]}
       >
-        {mockdata.map((feature) => (
-          <Card
-            key={feature.title}
-            shadow="md"
-            radius="md"
-            className={classes.card}
-            p="xl"
-          >
-            <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
-              {feature.title}
-            </Text>
-            <Text size="sm" color="dimmed" mt="sm">
-              {feature.description}
-            </Text>
-          </Card>
-        ))}
+        <Card shadow="md" radius="md" className={classes.card} p="xl">
+          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
+            Best foods
+          </Text>
+          <Text size="sm" color="dimmed" mt="sm">
+            <List>
+              <List.Item>Pizza</List.Item>
+              <List.Item>Install dependencies with yarn</List.Item>
+              <List.Item>
+                To start development server run npm start command
+              </List.Item>
+              <List.Item>
+                Run tests to make sure your changes do not break the build
+              </List.Item>
+              <List.Item>Submit a pull request once you are done</List.Item>
+            </List>
+          </Text>
+        </Card>
+        <Card shadow="md" radius="md" className={classes.card} p="xl">
+          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
+            Best foods
+          </Text>
+          <Text size="sm" color="dimmed" mt="sm">
+            <List type="ordered">
+              <List.Item>Pizza</List.Item>
+              <List.Item>Install dependencies with yarn</List.Item>
+              <List.Item>
+                To start development server run npm start command
+              </List.Item>
+              <List.Item>
+                Run tests to make sure your changes do not break the build
+              </List.Item>
+              <List.Item>Submit a pull request once you are done</List.Item>
+            </List>
+          </Text>
+        </Card>
+        <Card shadow="md" radius="md" className={classes.card} p="xl">
+          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
+            Best foods
+          </Text>
+          <Text size="sm" color="dimmed" mt="sm">
+            <List>
+              <List.Item>Pizza</List.Item>
+              <List.Item>Install dependencies with yarn</List.Item>
+              <List.Item>
+                To start development server run npm start command
+              </List.Item>
+              <List.Item>
+                Run tests to make sure your changes do not break the build
+              </List.Item>
+              <List.Item>Submit a pull request once you are done</List.Item>
+            </List>
+          </Text>
+        </Card>
       </SimpleGrid>
     </Container>
   );
