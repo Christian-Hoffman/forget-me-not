@@ -18,6 +18,9 @@ function Navbar() {
         <button onClick={logout}>
           Logout
         </button>
+        <Link to="/create">
+        Create
+      </Link>
       </>
     );
   }
