@@ -16,6 +16,17 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    // notes: async (parent, args, context) => {  save if applicable
+    //   const users = await User.find();
+
+    //   const list = [];
+    //   for (item of users) {
+    //     list.push(item.notes);
+    //   }
+
+    //   console.log(list);
+    //   return users;
+    // }
   },
 
   Mutation: {
@@ -40,6 +51,33 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    addNote: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { _id: args.id },
+        { $addToSet: { notes: { title: args.title, body: args.body } } },
+        { new: true }
+      );
+      console.log(user);
+      return user;
+    },
+    deleteNote: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { _id: args.userId },
+        { $pull: { notes: { _id: args.noteId } } },
+        { new: true },
+      );
+      console.log(user);
+      return user;
+    },
+    editNote: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { "_id": args.userId, "notes._id" : args.noteId },
+        { $set: { notes: {title: args.title, body: args.body } } },
+        { new: true },
+      );
+      console.log(user);
+      return user;
     }
   }
 };
