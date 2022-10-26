@@ -1,24 +1,22 @@
 const { Schema } = require("mongoose");
 const format = require("../utils/dateFormat");
+const Item = require("./Item");
 
-const noteSchema = new Schema({
+const listSchema = new Schema({
   title: {
-    type: String, 
-    required: true,
-    trim: true,
-  },
-  body:{
     type: String,
+    require: true,
     trim: true,
   },
+  listItems: [Item],
   createdAt: {
-    type: String,
+    type: String, 
     default: format(Date.now()),
   },
   isPublic: {
     type: Boolean
   }
+
 })
 
-
-module.exports = noteSchema;
+module.exports = listSchema
