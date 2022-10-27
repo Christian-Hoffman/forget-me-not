@@ -11,13 +11,13 @@ import {
 
 function Navbar() {
   return (
-    <Tabs defaultValue="gallery">
+    <Tabs defaultValue="gallery" position="right">
       <Tabs.List>
-        <Tabs.Tab value="gallery" ><Text component={Link} variant="link" to="/create">create</Text></Tabs.Tab>
-        <Tabs.Tab value="messages" ><Text component={Link} variant="link" to="/login">login</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/signup">sign up</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/me">profile</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/users/:id">other profiles</Text></Tabs.Tab>
+        <Tabs.Tab value="gallery" ><Text component={Link} variant="link" to="/create">Create</Text></Tabs.Tab>
+        <Tabs.Tab value="messages" ><Text component={Link} variant="link" to="/login">Login</Text></Tabs.Tab>
+        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/signup">Sign Up</Text></Tabs.Tab>
+        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/me">Profile</Text></Tabs.Tab>
+        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/users/:id">Other Profiles</Text></Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="gallery" pt="xs">
