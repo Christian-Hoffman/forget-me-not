@@ -8,40 +8,61 @@ import {
   Card,
   SimpleGrid,
   Container,
-  List,
 } from "@mantine/core";
 
-// const mockdata = [
-//   {
-//     title: "Extreme performance",
-//     description:
-//       "This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit",
-//   },
-//   {
-//     title: "Privacy focused",
-//     description:
-//       "People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma",
-//   },
-//   {
-//     title: "No third parties",
-//     description:
-//       "They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves",
-//   },
-// ];
+const mockdata = [
+  {
+    title: "My Top 5 Favorite Movies",
+    description:
+    <ul>
+      <li>"Fight Club"</li>
+      <li>"Star Wars Ep. IV"</li>
+      <li>"Spiderman: Into the Spiderverse"</li>
+      <li>"Godzilla vs. Mecha-Godzilla"</li>
+      <li>"A Bug's Life"</li>
+    </ul>
+  },
+  {
+    title: "Grocery List",
+    description:
+    <ol>
+      <li>"Milk"</li>
+      <li>"Eggs"</li>
+      <li>"Butter"</li>
+      <li>"Bread"</li>
+      <li>"Cheese"</li>
+      <li>"Beer"</li>
+      <li>"Taco Shells"</li>
+      <li>"Orange Juice"</li>
+    </ol>
+  },
+  {
+    title: "To-Do List",
+    description:
+    <ul>
+      <li>"Update Resume"</li>
+      <li>"Attend Career Webinar"</li>
+      <li>"Edit Web Portfolio"</li>
+      <li>"Do Laundry"</li>
+      <li>"Submit Final Project"</li>
+    </ul>
+  },
+];
 
 const Homebody = () => {
   const useStyles = createStyles((theme) => ({
     title: {
-      fontSize: 34,
+      fontSize: 40,
       fontWeight: 900,
       [theme.fn.smallerThan("sm")]: {
-        fontSize: 24,
+        fontSize: 34,
       },
     },
 
     description: {
       maxWidth: 600,
       margin: "auto",
+      padding: 30,
 
       "&::after": {
         content: '""',
@@ -56,11 +77,10 @@ const Homebody = () => {
     },
 
     card: {
-      border: `1px solid ${
-        theme.colorScheme === "dark"
+      border: `5px solid ${theme.colorScheme === "dark"
           ? theme.colors.dark[5]
           : theme.colors.gray[1]
-      }`,
+        }`,
     },
 
     cardTitle: {
@@ -80,12 +100,12 @@ const Homebody = () => {
     <Container size="lg" py="xl">
       <Group position="center">
         <Badge variant="filled" size="lg">
-          Best company ever
+          Forget-Me-Note
         </Badge>
       </Group>
 
-      <Title order={2} className={classes.title} align="center" mt="sm">
-        Integrate effortlessly with any technology stack
+      <Title order={2} className={classes.title} align="center" mt="lg">
+        Welcome to Forget-Me-Not, a user-friendly note taking, list making utility!
       </Title>
 
       <Text
@@ -94,73 +114,35 @@ const Homebody = () => {
         align="center"
         mt="md"
       >
-        Every once in a while, you’ll see a Golbat that’s missing some fangs.
-        This happens when hunger drives it to try biting a Steel-type Pokémon.
+        Featured below are some common uses, sign-up today to begin creating and sharing with other users.
       </Text>
 
       <SimpleGrid
-        cols={2}
+        cols={3}
         spacing="xl"
         mt={50}
         breakpoints={[{ maxWidth: "md", cols: 1 }]}
       >
-        <Card shadow="md" radius="md" className={classes.card} p="xl">
-          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
-            Best foods
-          </Text>
-          <Text size="sm" color="dimmed" mt="sm">
-            <List>
-              <List.Item>Pizza</List.Item>
-              <List.Item>Install dependencies with yarn</List.Item>
-              <List.Item>
-                To start development server run npm start command
-              </List.Item>
-              <List.Item>
-                Run tests to make sure your changes do not break the build
-              </List.Item>
-              <List.Item>Submit a pull request once you are done</List.Item>
-            </List>
-          </Text>
-        </Card>
-        <Card shadow="md" radius="md" className={classes.card} p="xl">
-          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
-            Best foods
-          </Text>
-          <Text size="sm" color="dimmed" mt="sm">
-            <List type="ordered">
-              <List.Item>Pizza</List.Item>
-              <List.Item>Install dependencies with yarn</List.Item>
-              <List.Item>
-                To start development server run npm start command
-              </List.Item>
-              <List.Item>
-                Run tests to make sure your changes do not break the build
-              </List.Item>
-              <List.Item>Submit a pull request once you are done</List.Item>
-            </List>
-          </Text>
-        </Card>
-        <Card shadow="md" radius="md" className={classes.card} p="xl">
-          <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
-            Best foods
-          </Text>
-          <Text size="sm" color="dimmed" mt="sm">
-            <List>
-              <List.Item>Pizza</List.Item>
-              <List.Item>Install dependencies with yarn</List.Item>
-              <List.Item>
-                To start development server run npm start command
-              </List.Item>
-              <List.Item>
-                Run tests to make sure your changes do not break the build
-              </List.Item>
-              <List.Item>Submit a pull request once you are done</List.Item>
-            </List>
-          </Text>
-        </Card>
+        {mockdata.map((feature) => (
+          <Card
+            key={feature.title}
+            shadow="md"
+            radius="md"
+            className={classes.card}
+            p="xl"
+          >
+            <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
+              {feature.title}
+            </Text>
+            <Text size="lg" color="dimmed" m="sm">
+              {feature.description}
+            </Text>
+          </Card>
+        ))}
       </SimpleGrid>
     </Container>
   );
 };
 
 export default Homebody;
+
