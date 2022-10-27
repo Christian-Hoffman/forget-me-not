@@ -11,6 +11,7 @@ const typeDefs = gql`
     listItems: [String]
     createdAt: String
     isPublic: Boolean
+    isOrdered: Boolean
   }
   type Note{
     _id: ID

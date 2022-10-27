@@ -47,29 +47,30 @@ const Signup = () => {
       )
     } 
     return (
-      <form onSubmit={handleFormSubmit}>
-        <input
+      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center", marginTop:"450px", flexDirection:"column"}}>
+        <h4 style={{marginBottom:"20px", fontSize:"40px"}}>Sign Up</h4>
+        <input style={{display:"flex", fontSize:"30px", borderRadius:"10px", padding:"10px"}}
           placeholder="Your username"
           name="username"
           type="text"
           value={formState.name}
           onChange={handleChange}
         />
-        <input
+        <input style={{ display:"flex" , fontSize:"30px", borderRadius:"10px", marginTop:"10px", padding:"10px"}}
           placeholder="Your email"
           name="email"
           type="email"
           value={formState.email}
           onChange={handleChange}
         />
-        <input
+        <input style={{ display:"flex" , fontSize:"30px", borderRadius:"10px", marginTop:"10px", padding:"10px"}}
           placeholder="******"
           name="password"
           type="password"
           value={formState.password}
           onChange={handleChange}
         />
-        <button type="submit">
+        <button type="submit" style={{ display:"flex", fontSize:"30px", borderRadius:"10px", marginTop:"10px"}}>
           Submit
         </button>
       </form>
@@ -78,7 +79,7 @@ const Signup = () => {
 
   return (
     <main>
-      <h4>Sign Up</h4>
+      <h4></h4>
       <div>
         {renderForm()}
         {error && <div>{error.message}</div>}
