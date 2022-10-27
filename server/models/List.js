@@ -18,6 +18,9 @@ const listSchema = new Schema({
   },
   isPublic: {
     type: Boolean
+  },
+  isOrdered: {
+    type: Boolean
   }
 
 })
