@@ -15,7 +15,7 @@ function Navbar() {
       <Tabs.List>
         <Tabs.Tab value="gallery" ><Text component={Link} variant="link" to="/create">create</Text></Tabs.Tab>
         <Tabs.Tab value="messages" ><Text component={Link} variant="link" to="/login">login</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/signup">create login</Text></Tabs.Tab>
+        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/signup">sign up</Text></Tabs.Tab>
         <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/me">profile</Text></Tabs.Tab>
         <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/users/:id">other profiles</Text></Tabs.Tab>
       </Tabs.List>
