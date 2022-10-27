@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Grid,
   Chip,
@@ -20,7 +20,6 @@ import { RichTextEditor } from "@mantine/rte";
 import { IconGripVertical } from "@tabler/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-
 const Createlist = () => {
   const useStyles = createStyles(() => ({}));
   const { classes } = useStyles();
@@ -28,9 +27,15 @@ const Createlist = () => {
   const [checked, setChecked] = useState(false);
   // initial value for rte body
   const initialValue = "<p>Enter your note here</p>";
-  const [value, onChange] = useState(initialValue);
-  // submit button
-  const submitForm = useForm({
+  const [value, setValue] = useState(initialValue);
+  const textAreaRef = useRef();
+  // List submit button
+  const listSubmitForm = useForm({
+    initialValues: {
+      text: "",
+    },
+  });
+  const noteSubmitForm = useForm({
     initialValues: {
       text: "",
     },
@@ -41,6 +46,11 @@ const Createlist = () => {
       list: [{ item: "" }],
     },
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(textAreaRef.current.value);
+  };
   // to display and allow addition of more list items
   const fields = listForm.values.list.map((_, index) => (
     <Draggable key={index} index={index} draggableId={index.toString()}>
@@ -64,7 +74,7 @@ const Createlist = () => {
         {/* CHOOSE SETTINGS SECTION */}
         <Container align="center" fluid>
           <Grid.Col md={3} lg={3}>
-            settings
+            SETTINGS
             <Chip.Group position="center">
               <Chip
                 checked={checked}
@@ -81,6 +91,7 @@ const Createlist = () => {
                 Private
               </Chip>
             </Chip.Group>
+
             <Chip.Group position="center">
               <Chip
                 id="listCheckBox"
@@ -100,6 +111,7 @@ const Createlist = () => {
                 Note
               </Chip>
             </Chip.Group>
+
             {visible ? (
               <Chip.Group
                 position="center"
@@ -134,6 +146,7 @@ const Createlist = () => {
           </Grid.Col>
           <Input placeholder="Title" />
           {visible ? (
+            // LIST SECTION
             <Container>
               <Box sx={{ maxWidth: 500 }} mx="auto">
                 <DragDropContext
@@ -164,17 +177,33 @@ const Createlist = () => {
                   </Button>
                 </Group>
 
+                    {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
                 <Text size="sm" weight={500} mt="md">
                   Form values:
                 </Text>
                 <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
               </Box>
+
+                {/* SUBMIT BUTTON FOR LIST */}
+              <Box sx={{ maxWidth: 300 }} mx="auto">
+                <listSubmitForm
+                  onSubmit={listSubmitForm.onSubmit((values) =>
+                    console.log(values)
+                  )}
+                >
+                  <Group position="right" mt="md">
+                    <Button type="submit">Submit</Button>
+                  </Group>
+                </listSubmitForm>
+              </Box>
             </Container>
           ) : (
+            // NOTE SECTION
             <Container>
+              <form onSubmit={handleSubmit}>
               <RichTextEditor
-                value={value}
-                onChange={onChange}
+                value={initialValue}
+                ref={textAreaRef}
                 id="rte"
                 align="left"
                 controls={[
@@ -184,17 +213,16 @@ const Createlist = () => {
                   ["alignLeft", "alignCenter", "alignRight"],
                 ]}
               />
+              {/* SUBMIT BUTTON FOR NOTE */}
+              <Box sx={{ maxWidth: 300 }} mx="auto">
+                
+                  <Group position="right" mt="md">
+                    <Button type="submit">Submit</Button>
+                  </Group>
+              </Box>
+              </form>
             </Container>
           )}
-          <Box sx={{ maxWidth: 300 }} mx="auto">
-            <submitForm
-              onSubmit={submitForm.onSubmit((values) => console.log(values))}
-            >
-              <Group position="right" mt="md">
-                <Button type="submit">Submit</Button>
-              </Group>
-            </submitForm>
-          </Box>
         </Container>
       </Grid>
     </Container>
