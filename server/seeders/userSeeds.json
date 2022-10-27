@@ -10,9 +10,10 @@
     },
     "lists": {
       "title": "Top 3 movies",
-      "listItems": ["Black Adam", "Ticket to Paradise", "Prey for the Devil"]
-    },
-    "isOrdered": true
+      "listItems": ["Black Adam", "Ticket to Paradise", "Prey for the Devil"],
+      "isPublic": true,
+      "isOrdered": true
+    }
   },
   {
     "username": "revilite",
