@@ -1,7 +1,7 @@
 {
   "name": "programming-thoughts",
   "version": "1.0.0",
-  "description": "",
+  "description": "1. [Description](#description)\r 2. [Tech Use](#tech-use)\r 3. [Installation](#installation)\r 4. [Visuals](#visuals)\r 5. [License](#license)",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
@@ -15,5 +15,41 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^7.1.0"
-  }
+  },
+  "dependencies": {
+    "ansi-regex": "^5.0.1",
+    "ansi-styles": "^4.3.0",
+    "chalk": "^4.1.2",
+    "cliui": "^8.0.1",
+    "date-fns": "^2.29.3",
+    "emoji-regex": "^8.0.0",
+    "escalade": "^3.1.1",
+    "get-caller-file": "^2.0.5",
+    "require-directory": "^2.1.1",
+    "has-flag": "^4.0.0",
+    "is-fullwidth-code-point": "^3.0.0",
+    "string-width": "^4.2.3",
+    "shell-quote": "^1.7.4",
+    "rxjs": "^7.5.7",
+    "lodash": "^4.17.21",
+    "spawn-command": "^0.0.2-1",
+    "supports-color": "^8.1.1",
+    "strip-ansi": "^6.0.1",
+    "tree-kill": "^1.2.2",
+    "y18n": "^5.0.8",
+    "tslib": "^2.4.0",
+    "color-convert": "^2.0.1",
+    "wrap-ansi": "^7.0.0",
+    "yargs": "^17.6.0",
+    "yargs-parser": "^21.1.1",
+    "color-name": "^1.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Christian-Hoffman/forget-me-not.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Christian-Hoffman/forget-me-not/issues"
+  },
+  "homepage": "https://github.com/Christian-Hoffman/forget-me-not#readme"
 }
