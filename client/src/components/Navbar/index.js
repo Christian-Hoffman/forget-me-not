@@ -2,8 +2,8 @@ import React from 'react';
 
 
 import Auth from '../../utils/auth';
-import { Tabs,Text } from '@mantine/core';
-import { 
+import { Tabs, Text } from '@mantine/core';
+import {
   Browser as Router,
   Link,
 } from "react-router-dom"
@@ -21,15 +21,15 @@ function Navbar() {
       </Tabs.List>
 
       <Tabs.Panel value="gallery" pt="xs">
-       
+
       </Tabs.Panel>
 
       <Tabs.Panel value="messages" pt="xs">
-        
+
       </Tabs.Panel>
 
       <Tabs.Panel value="settings" pt="xs">
-       
+
       </Tabs.Panel>
     </Tabs>
   );
@@ -46,7 +46,7 @@ function Navbar() {
 //     event.preventDefault();
 //     Auth.logout();
 //   };
-  
+
 //   if (Auth.loggedIn()) {
 //     return (
 //       <>
