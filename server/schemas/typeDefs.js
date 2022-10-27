@@ -8,7 +8,7 @@ const typeDefs = gql`
   type List{
     _id: ID
     title: String
-    listItems: [Item]
+    listItems: [String]
     createdAt: String
     isPublic: Boolean
   }
@@ -48,7 +48,7 @@ const typeDefs = gql`
     deleteNote(userId: ID!, noteId: ID!): User
     editNote(userId: ID!, noteId: ID!, title: String!, body: String!, isPublic: Boolean!): User
     addList(id: ID!, title: String!, listItems: [String]!, isPublic: Boolean!): User
-    deleteList(userId: ID!, listID: ID!): User
+    deleteList(userId: ID!, listId: ID!): User
     editList(userId: ID!, listId: ID!, title: String!, listItems: [String]!, isPublic: Boolean!): User
   }
 `;

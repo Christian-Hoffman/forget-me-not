@@ -1,6 +1,5 @@
 const { Schema } = require("mongoose");
 const format = require("../utils/dateFormat");
-const Item = require("./Item");
 
 const listSchema = new Schema({
   title: {
@@ -8,7 +7,11 @@ const listSchema = new Schema({
     require: true,
     trim: true,
   },
-  listItems: [Item],
+  listItems: [
+    {
+      type: String,
+    }
+  ],
   createdAt: {
     type: String, 
     default: format(Date.now()),
