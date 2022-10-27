@@ -24,33 +24,100 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_THOUGHT = gql`
-  mutation addThought($thoughtText: String!) {
-    addThought(thoughtText: $thoughtText) {
+export const ADD_NOTE = gql`
+mutation AddNote($addNoteId: ID!, $titleAN: String!, $bodyAN: String!, $isPublicAN: Boolean!) {
+  addNote(id: $addNoteId, title: $titleAN, body: $bodyAN, isPublic: $isPublicAN) {
+    _id
+    username
+    notes {
       _id
-      thoughtText
-      thoughtAuthor
+      title
+      body
       createdAt
-      comments {
-        _id
-        commentText
-      }
+      isPublic
     }
   }
+}
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($thoughtId: ID!, $commentText: String!) {
-    addComment(thoughtId: $thoughtId, commentText: $commentText) {
+export const DELETE_NOTE = gql`
+mutation DeleteNote($userIdDN: ID!, $noteIdDN: ID!) {
+  deleteNote(userId: $userIdDN, noteId: $noteIdDN) {
+    _id
+    username
+    notes {
       _id
-      thoughtText
-      thoughtAuthor
+      title
+      body
       createdAt
-      comments {
-        _id
-        commentText
-        createdAt
-      }
+      isPublic
     }
   }
+}
 `;
+
+export const EDIT_NOTE = gql`
+mutation EditNote($userIdEN: ID!, $noteIdEN: ID!, $titleEN: String!, $bodyEN: String!, $isPublicEN: Boolean!) {
+  editNote(userId: $userIdEN, noteId: $noteIdEN, title: $titleEN, body: $bodyEN, isPublic: $isPublicEN) {
+    _id
+    username
+    notes {
+      _id
+      title
+      body
+      createdAt
+      isPublic
+    }
+  }
+}
+`;
+
+export const ADD_LIST = gql`
+mutation AddList($addListId: ID!, $titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolean!) {
+  addList(id: $addListId, title: $titleAL, listItems: $listItemsAL, isPublic: $isPublicAL) {
+    _id
+    username
+    lists {
+      _id
+      title
+      createdAt
+      isPublic
+      listItems
+    }
+  }
+}
+`;
+
+
+export const DELETE_LIST = gql`
+mutation DeleteList($userIdDL: ID!, $listIdDL: ID!) {
+  deleteList(userId: $userIdDL, listId: $listIdDL) {
+    _id
+    username
+    lists {
+      _id
+      title
+      listItems
+      createdAt
+      isPublic
+    }
+  }
+}
+`;
+
+export const EDIT_LIST = gql`
+mutation EditList($userIdEL: ID!, $listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $isPublicEL: Boolean!) {
+  editList(userId: $userIdEL, listId: $listIdEL, title: $titleEL, listItems: $listItemsEL, isPublic: $isPublicEL) {
+    _id
+    username
+    lists {
+      _id
+      title
+      listItems
+      createdAt
+      isPublic
+    }
+  }
+}
+`;
+
