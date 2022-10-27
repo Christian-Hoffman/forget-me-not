@@ -69,7 +69,6 @@ const resolvers = {
         { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true },
       );
-      console.log(user);
       return user;
     },
 
@@ -77,21 +76,38 @@ const resolvers = {
     addList: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
         { "_id": args.id },
-        { $addToSet: { lists: { 
-          title: args.title,
-          createdAt: format(Date.now()),
-          isPublic: args.isPublic,
-          listItems: [args.listItems[0]]
-        } 
-        } 
+        {
+          $addToSet: {
+            lists: {
+              title: args.title,
+              createdAt: format(Date.now()),
+              isPublic: args.isPublic,
+              listItems: args.listItems
+            }
+          }
         },
         { new: true }
-      )
+      );
+      return user;
+    },
 
+    deleteList: async (parent, args, context) => {
+      console.log(args);
+      const user = await User.findOneAndUpdate(
+        { _id: args.userId },
+        { $pull: { lists: { _id: args.listId, } } },
+        { new: true },
+      );
+      return user;
+    },
 
-
-
-
+    editList: async (parent, args, context) => {
+      console.log(args);
+      const user = await User.findOneAndUpdate(
+        { "_id": args.userId, "lists._id": args.listId },
+        { $set: { lists: { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic } } },
+        { new: true }
+      );
       return user;
     }
   }

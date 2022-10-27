@@ -10,17 +10,7 @@
     },
     "lists": {
       "title": "Top 3 movies",
-      "listItems": [
-        {
-          "body": "Black Adam"
-        },
-        {
-          "body": "Ticket to Paradise"
-        },
-        {
-          "body": "prey for the Devil"
-        }
-      ]
+      "listItems": ["Black Adam", "Ticket to Paradise", "Prey for the Devil"]
     },
     "isPublic": "true"
   },
@@ -35,17 +25,7 @@
     },
     "lists": {
       "title": "Top 3 Games",
-      "listItems": [
-        {
-          "body": "Bayonetta 3"
-        },
-        {
-          "body": "Sonic Frontiers"
-        },
-        {
-          "body": "God of War: Ragnarok"
-        }
-      ],
+      "listItems": ["bayonetta 3", "Resident Evil Re:Verse", "The Entropy Centre"],
       "isPublic": "true"
     }
   }
