@@ -29,7 +29,7 @@ const resolvers = {
     },
     login: async (_, { email, username, password }) => {
       const user = await User.findOne(email ? { email } : { username });
-
+      
       if (!user) {
         throw new AuthenticationError('No user found with this email address');
       }
@@ -48,7 +48,7 @@ const resolvers = {
     //Note Mutations
     addNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
-        { _id: args.id },
+        { _id: context.user._id },
         { $addToSet: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true }
       );
@@ -56,7 +56,7 @@ const resolvers = {
     },
     deleteNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
-        { _id: args.userId },
+        { _id: context.user._id},
         { $pull: { notes: { _id: args.noteId, } } },
         { new: true },
       );
@@ -65,7 +65,7 @@ const resolvers = {
     },
     editNote: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
-        { "_id": args.userId, "notes._id": args.noteId },
+        { "_id": context.user._id, "notes._id": args.noteId },
         { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true },
       );
@@ -75,7 +75,7 @@ const resolvers = {
     //List Mutations
     addList: async (parent, args, context) => {
       const user = await User.findOneAndUpdate(
-        { "_id": args.id },
+        { "_id": context.user._id },
         {
           $addToSet: {
             lists: {
@@ -94,7 +94,7 @@ const resolvers = {
     deleteList: async (parent, args, context) => {
       console.log(args);
       const user = await User.findOneAndUpdate(
-        { _id: args.userId },
+        { _id: context.user._id },
         { $pull: { lists: { _id: args.listId, } } },
         { new: true },
       );
@@ -104,7 +104,7 @@ const resolvers = {
     editList: async (parent, args, context) => {
       console.log(args);
       const user = await User.findOneAndUpdate(
-        { "_id": args.userId, "lists._id": args.listId },
+        { "_id": context.user._id, "lists._id": args.listId },
         { $set: { lists: { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true }
       );

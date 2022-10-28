@@ -1,15 +1,31 @@
 import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user {
+mutation login($email: String!, $password: String!){
+  login(email: $email, password: $password){
+    token
+    user {
+      _id
+      username
+      email
+      notes {
         _id
-        username
+        title
+        body
+        createdAt
+        isPublic
+      }
+      lists {
+        _id
+        title
+        listItems
+        createdAt
+        isPublic
+        isOrdered
       }
     }
   }
+}
 `;
 
 export const ADD_USER = gql`
@@ -25,8 +41,8 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_NOTE = gql`
-mutation AddNote($addNoteId: ID!, $titleAN: String!, $bodyAN: String!, $isPublicAN: Boolean!) {
-  addNote(id: $addNoteId, title: $titleAN, body: $bodyAN, isPublic: $isPublicAN) {
+mutation AddNote($titleAN: String!, $bodyAN: String!, $isPublicAN: Boolean!) {
+  addNote(title: $titleAN, body: $bodyAN, isPublic: $isPublicAN) {
     _id
     username
     notes {
@@ -41,8 +57,8 @@ mutation AddNote($addNoteId: ID!, $titleAN: String!, $bodyAN: String!, $isPublic
 `;
 
 export const DELETE_NOTE = gql`
-mutation DeleteNote($userIdDN: ID!, $noteIdDN: ID!) {
-  deleteNote(userId: $userIdDN, noteId: $noteIdDN) {
+mutation DeleteNote($noteIdDN: ID!) {
+  deleteNote(noteId: $noteIdDN) {
     _id
     username
     notes {
@@ -57,8 +73,8 @@ mutation DeleteNote($userIdDN: ID!, $noteIdDN: ID!) {
 `;
 
 export const EDIT_NOTE = gql`
-mutation EditNote($userIdEN: ID!, $noteIdEN: ID!, $titleEN: String!, $bodyEN: String!, $isPublicEN: Boolean!) {
-  editNote(userId: $userIdEN, noteId: $noteIdEN, title: $titleEN, body: $bodyEN, isPublic: $isPublicEN) {
+mutation EditNote($noteIdEN: ID!, $titleEN: String!, $bodyEN: String!, $isPublicEN: Boolean!) {
+  editNote(noteId: $noteIdEN, title: $titleEN, body: $bodyEN, isPublic: $isPublicEN) {
     _id
     username
     notes {
@@ -73,8 +89,8 @@ mutation EditNote($userIdEN: ID!, $noteIdEN: ID!, $titleEN: String!, $bodyEN: St
 `;
 
 export const ADD_LIST = gql`
-mutation AddList($addListId: ID!, $titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolean!) {
-  addList(id: $addListId, title: $titleAL, listItems: $listItemsAL, isPublic: $isPublicAL) {
+mutation AddList($titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolean!) {
+  addList(title: $titleAL, listItems: $listItemsAL, isPublic: $isPublicAL) {
     _id
     username
     lists {
@@ -90,8 +106,8 @@ mutation AddList($addListId: ID!, $titleAL: String!, $listItemsAL: [String]!, $i
 
 
 export const DELETE_LIST = gql`
-mutation DeleteList($userIdDL: ID!, $listIdDL: ID!) {
-  deleteList(userId: $userIdDL, listId: $listIdDL) {
+mutation DeleteList($listIdDL: ID!) {
+  deleteList(listId: $listIdDL) {
     _id
     username
     lists {
@@ -106,8 +122,8 @@ mutation DeleteList($userIdDL: ID!, $listIdDL: ID!) {
 `;
 
 export const EDIT_LIST = gql`
-mutation EditList($userIdEL: ID!, $listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $isPublicEL: Boolean!) {
-  editList(userId: $userIdEL, listId: $listIdEL, title: $titleEL, listItems: $listItemsEL, isPublic: $isPublicEL) {
+mutation EditList($listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $isPublicEL: Boolean!) {
+  editList(listId: $listIdEL, title: $titleEL, listItems: $listItemsEL, isPublic: $isPublicEL) {
     _id
     username
     lists {
