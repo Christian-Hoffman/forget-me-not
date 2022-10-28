@@ -23,33 +23,44 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const Createlist = () => {
   const useStyles = createStyles(() => ({}));
   const { classes } = useStyles();
+  // Sets visible for chips when clicked, and sets other connected to opposite value
   const [visible, setVisible] = useState(false);
   const [checked, setChecked] = useState(false);
+  // Sets private and public chip to true/false
+  const [visibility, setVisibility] = useState(false);
   // initial value for rte body
+  const [orderType, setOrderType] = useState(false);
   const initialValue = "<p>Enter your note here</p>";
   const [value, setValue] = useState(initialValue);
   const textAreaRef = useRef();
-  // List submit button
-  const listSubmitForm = useForm({
-    initialValues: {
-      text: "",
-    },
-  });
-  const noteSubmitForm = useForm({
-    initialValues: {
-      text: "",
-    },
-  });
+  const noteTitleRef = useRef();
+  const listTitleRef = useRef();
+  const listItemRef = useRef();
   // add list item button
   const listForm = useForm({
     initialValues: {
       list: [{ item: "" }],
     },
   });
-
-  const handleSubmit = (e) => {
+  const handleListSubmit = (e) => {
     e.preventDefault();
-    console.log(textAreaRef.current.value);
+    const fullList = listForm.values.list;
+    let listArr = [];
+    for (let i = 0; i < fullList.length; i++) {
+      listArr.push(fullList[i].item);
+    };
+    const listTitle = listTitleRef.current.value;
+    const allListItems = listArr;
+    const listType = 'isOrdered: ' + orderType;
+    const viewStatus = 'isPublic: ' + visibility;
+    console.log(listTitle, allListItems, listType, viewStatus);
+  };
+  const handleNoteSubmit = (e) => {
+    e.preventDefault();
+    const noteTitle = noteTitleRef.current.value;
+    const noteBody = textAreaRef.current.value;
+    const viewStatus = 'isPublic: ' + visibility;
+    console.log(noteTitle, noteBody, viewStatus);
   };
   // to display and allow addition of more list items
   const fields = listForm.values.list.map((_, index) => (
@@ -80,6 +91,7 @@ const Createlist = () => {
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
+                onClick={() => setVisibility(true)}
               >
                 Public
               </Chip>
@@ -87,12 +99,21 @@ const Createlist = () => {
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="2"
+                onClick={() => setVisibility(false)}
               >
                 Private
               </Chip>
             </Chip.Group>
 
             <Chip.Group position="center">
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="2"
+                onClick={() => setVisible(false)}
+              >
+                Note
+              </Chip>
               <Chip
                 id="listCheckBox"
                 checked={checked}
@@ -101,14 +122,6 @@ const Createlist = () => {
                 onClick={() => setVisible(true)}
               >
                 List
-              </Chip>
-              <Chip
-                checked={checked}
-                onChange={() => setChecked((v) => !v)}
-                value="2"
-                onClick={() => setVisible(false)}
-              >
-                Note
               </Chip>
             </Chip.Group>
 
@@ -122,6 +135,7 @@ const Createlist = () => {
                   checked={checked}
                   onChange={() => setChecked((v) => !v)}
                   value="1"
+                  onClick={() => setOrderType(true)}
                 >
                   Ordered
                 </Chip>
@@ -129,6 +143,7 @@ const Createlist = () => {
                   checked={checked}
                   onChange={() => setChecked((v) => !v)}
                   value="2"
+                  onClick={() => setOrderType(false)}
                 >
                   Unordered
                 </Chip>
@@ -144,10 +159,11 @@ const Createlist = () => {
           <Grid.Col md={9} lg={9}>
             create
           </Grid.Col>
-          <Input placeholder="Title" />
           {visible ? (
             // LIST SECTION
             <Container>
+              <form onSubmit={handleListSubmit}>
+              <Input placeholder="Title" ref={listTitleRef}/>
               <Box sx={{ maxWidth: 500 }} mx="auto">
                 <DragDropContext
                   onDragEnd={({ destination, source }) =>
@@ -186,21 +202,17 @@ const Createlist = () => {
 
                 {/* SUBMIT BUTTON FOR LIST */}
               <Box sx={{ maxWidth: 300 }} mx="auto">
-                <listSubmitForm
-                  onSubmit={listSubmitForm.onSubmit((values) =>
-                    console.log(values)
-                  )}
-                >
                   <Group position="right" mt="md">
                     <Button type="submit">Submit</Button>
                   </Group>
-                </listSubmitForm>
               </Box>
+              </form>
             </Container>
           ) : (
             // NOTE SECTION
             <Container>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleNoteSubmit}>
+              <Input placeholder="Title" ref={noteTitleRef}/>
               <RichTextEditor
                 value={initialValue}
                 ref={textAreaRef}
@@ -215,7 +227,6 @@ const Createlist = () => {
               />
               {/* SUBMIT BUTTON FOR NOTE */}
               <Box sx={{ maxWidth: 300 }} mx="auto">
-                
                   <Group position="right" mt="md">
                     <Button type="submit">Submit</Button>
                   </Group>
