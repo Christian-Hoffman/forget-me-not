@@ -14,18 +14,18 @@ const mockdata = [
   {
     title: "My Top 5 Favorite Movies",
     description:
-    <ul>
+    <ol>
       <li>"Fight Club"</li>
       <li>"Star Wars Ep. IV"</li>
       <li>"Spiderman: Into the Spiderverse"</li>
       <li>"Godzilla vs. Mecha-Godzilla"</li>
       <li>"A Bug's Life"</li>
-    </ul>
+    </ol>
   },
   {
     title: "Grocery List",
     description:
-    <ol>
+    <ul>
       <li>"Milk"</li>
       <li>"Eggs"</li>
       <li>"Butter"</li>
@@ -34,18 +34,18 @@ const mockdata = [
       <li>"Beer"</li>
       <li>"Taco Shells"</li>
       <li>"Orange Juice"</li>
-    </ol>
+    </ul>
   },
   {
     title: "To-Do List",
     description:
-    <ul>
+    <ol>
       <li>"Update Resume"</li>
       <li>"Attend Career Webinar"</li>
       <li>"Edit Web Portfolio"</li>
       <li>"Do Laundry"</li>
       <li>"Submit Final Project"</li>
-    </ul>
+    </ol>
   },
 ];
 
@@ -100,7 +100,7 @@ const Homebody = () => {
     <Container size="lg" py="xl">
       <Group position="center">
         <Badge variant="filled" size="lg">
-          Forget-Me-Note
+          Forget-Me-Not
         </Badge>
       </Group>
 
