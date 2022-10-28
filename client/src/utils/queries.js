@@ -26,6 +26,21 @@ export const QUERY_ME = gql`
       _id
       username
       email
+      notes {
+        _id
+        title
+        body
+        createdAt
+        isPublic
+      }
+      lists {
+        _id
+        title
+        createdAt
+        isPublic
+        isOrdered
+        listItems
+      }
     }
   }
 `;
