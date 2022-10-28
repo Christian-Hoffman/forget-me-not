@@ -82,6 +82,7 @@ const resolvers = {
               title: args.title,
               createdAt: format(Date.now()),
               isPublic: args.isPublic,
+              isOrdered: args.isOrdered,
               listItems: args.listItems
             }
           }
