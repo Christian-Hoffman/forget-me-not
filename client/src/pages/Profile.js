@@ -7,6 +7,7 @@ import Auth from '../utils/auth';
 import { QUERY_USERS, QUERY_USER, QUERY_ME } from '../utils/queries';
 // Components
 import UserList from '../components/UserList';
+import { Center } from '@mantine/core';
 
 const Profile = () => {
   const { id } = useParams();
@@ -52,10 +53,15 @@ const Profile = () => {
   const renderCurrentUserInfo = () => {
     if (id) return null;
     return (
+     <form style={{display:"flex", alignItems:"Center", justifyContent:"center", flexDirection:"column", marginTop:"500px"}}>
+       <h2 style={{}}>
+          Viewing {id ? `${user.username}'s` : 'your'} profile.
+        </h2>
       <ul>
-        <li>username: {user.username}</li>
-        <li>email: {user.email}</li>
+        <li style={{display:"flex"}}>username: {user.username}</li>
+        <li style={{}}>email: {user.email}</li>
       </ul>
+      </form>
     );
   }
 
@@ -63,7 +69,7 @@ const Profile = () => {
     <div>
       <div>
         <h2>
-          Viewing {id ? `${user.username}'s` : 'your'} profile.
+          {/* Viewing {id ? `${user.username}'s` : 'your'} profile. */}
         </h2>
         {renderCurrentUserInfo()}
         {renderUserList()}
