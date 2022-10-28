@@ -45,12 +45,12 @@ const typeDefs = gql`
   type Mutation {
     addUser(email:String!, username:String!, password:String!): Auth
     login(email:String!, password:String!): Auth
-    addNote(title: String!, body: String!, isPublic: Boolean!): User
+    addNote(title: String!, body: String!, isPublic: Boolean): User
     deleteNote(noteId: ID!): User
-    editNote(noteId: ID!, title: String!, body: String!, isPublic: Boolean!): User
-    addList(title: String!, listItems: [String]!, isPublic: Boolean!, isOrdered: Boolean!): User
+    editNote(noteId: ID!, title: String!, body: String!, isPublic: Boolean): User
+    addList(title: String!, listItems: [String]!, isPublic: Boolean, isOrdered: Boolean): User
     deleteList(listId: ID!): User
-    editList(listId: ID!, title: String!, listItems: [String]!, isPublic: Boolean!): User
+    editList(listId: ID!, title: String!, listItems: [String]!, isPublic: Boolean, isOrdered: Boolean): User
   }
 `;
 // notes: [Note] save if applicable

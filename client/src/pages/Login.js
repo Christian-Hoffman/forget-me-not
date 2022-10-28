@@ -49,7 +49,7 @@ const Login = () => {
       )
     }
     return (
-      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center", marginTop:"450px", flexDirection:"column"}}>
+      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center", marginTop:"50px", marginBottom:"450px", flexDirection:"column"}}>
               <h4 style={{marginBottom:"20px", fontSize:"40px"}}>Login</h4>
         <input style={{display:"flex", fontSize:"30px", borderRadius:"10px", padding:"10px"}}
           placeholder="Your email"
