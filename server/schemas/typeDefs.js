@@ -48,7 +48,7 @@ const typeDefs = gql`
     addNote(title: String!, body: String!, isPublic: Boolean!): User
     deleteNote(noteId: ID!): User
     editNote(noteId: ID!, title: String!, body: String!, isPublic: Boolean!): User
-    addList(title: String!, listItems: [String]!, isPublic: Boolean!): User
+    addList(title: String!, listItems: [String]!, isPublic: Boolean!, isOrdered: Boolean!): User
     deleteList(listId: ID!): User
     editList(listId: ID!, title: String!, listItems: [String]!, isPublic: Boolean!): User
   }

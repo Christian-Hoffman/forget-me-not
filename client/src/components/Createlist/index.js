@@ -19,6 +19,10 @@ import { useForm } from "@mantine/form";
 import { RichTextEditor } from "@mantine/rte";
 import { IconGripVertical } from "@tabler/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useMutation } from "@apollo/client";
+import { ADD_NOTE, ADD_LIST } from "../../utils/mutations";
+import Auth from "../../utils/auth";
+import { formatError } from "graphql";
 
 const Createlist = () => {
   const useStyles = createStyles(() => ({}));
@@ -30,37 +34,67 @@ const Createlist = () => {
   const [visibility, setVisibility] = useState(false);
   // initial value for rte body
   const [orderType, setOrderType] = useState(false);
+
+  const [ AddNote ] = useMutation(ADD_NOTE);
+  const [ AddList ] = useMutation(ADD_LIST);
+
   const initialValue = "<p>Enter your note here</p>";
   const [value, setValue] = useState(initialValue);
   const textAreaRef = useRef();
   const noteTitleRef = useRef();
   const listTitleRef = useRef();
-  const listItemRef = useRef();
+  // const listItemRef = useRef();
   // add list item button
   const listForm = useForm({
     initialValues: {
       list: [{ item: "" }],
     },
   });
-  const handleListSubmit = (e) => {
+  // Grabs user inputted data from list creation
+  const handleListSubmit = async (e) => {
     e.preventDefault();
     const fullList = listForm.values.list;
     let listArr = [];
     for (let i = 0; i < fullList.length; i++) {
       listArr.push(fullList[i].item);
-    };
+    }
     const listTitle = listTitleRef.current.value;
     const allListItems = listArr;
-    const listType = 'isOrdered: ' + orderType;
-    const viewStatus = 'isPublic: ' + visibility;
+    const listType = "isOrdered: " + orderType;
+    const viewStatus = "isPublic: " + visibility;
     console.log(listTitle, allListItems, listType, viewStatus);
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+    try{
+      const { data } = await AddList({
+        variables: { titleAL: listTitle, listItemsAL: allListItems, isPublicAL: visibility, isOrderedAL: orderType},
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const handleNoteSubmit = (e) => {
+  // Grabs user inputted data from note creation
+  const handleNoteSubmit = async (e) => {
     e.preventDefault();
     const noteTitle = noteTitleRef.current.value;
     const noteBody = textAreaRef.current.value;
-    const viewStatus = 'isPublic: ' + visibility;
+    const viewStatus = "isPublic: " + visibility;
     console.log(noteTitle, noteBody, viewStatus);
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+    try {
+      const { data } = await AddNote({
+        variables: { titleAN: noteTitle, bodyAN: noteBody, isPublicAN: visibility },
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   // to display and allow addition of more list items
   const fields = listForm.values.list.map((_, index) => (
@@ -104,7 +138,6 @@ const Createlist = () => {
                 Private
               </Chip>
             </Chip.Group>
-
             <Chip.Group position="center">
               <Chip
                 checked={checked}
@@ -124,7 +157,6 @@ const Createlist = () => {
                 List
               </Chip>
             </Chip.Group>
-
             {visible ? (
               <Chip.Group
                 position="center"
@@ -163,74 +195,77 @@ const Createlist = () => {
             // LIST SECTION
             <Container>
               <form onSubmit={handleListSubmit}>
-              <Input placeholder="Title" ref={listTitleRef}/>
-              <Box sx={{ maxWidth: 500 }} mx="auto">
-                <DragDropContext
-                  onDragEnd={({ destination, source }) =>
-                    listForm.reorderListItem("list", {
-                      from: source.index,
-                      to: destination.index,
-                    })
-                  }
-                >
-                  <Droppable droppableId="dnd-list" direction="vertical">
-                    {(provided) => (
-                      <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {fields}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-
-                <Group position="center" mt="md">
-                  <Button
-                    onClick={() =>
-                      listForm.insertListItem("list", { item: "" })
+                <Input placeholder="Title" ref={listTitleRef} />
+                <Box sx={{ maxWidth: 500 }} mx="auto">
+                  <DragDropContext
+                    onDragEnd={({ destination, source }) =>
+                      listForm.reorderListItem("list", {
+                        from: source.index,
+                        to: destination.index,
+                      })
                     }
                   >
-                    Add list item
-                  </Button>
-                </Group>
+                    <Droppable droppableId="dnd-list" direction="vertical">
+                      {(provided) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {fields}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
 
-                    {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
-                <Text size="sm" weight={500} mt="md">
-                  Form values:
-                </Text>
-                <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
-              </Box>
+                  <Group position="center" mt="md">
+                    <Button
+                      onClick={() =>
+                        listForm.insertListItem("list", { item: "" })
+                      }
+                    >
+                      Add list item
+                    </Button>
+                  </Group>
+
+                  {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
+                  <Text size="sm" weight={500} mt="md">
+                    Form values:
+                  </Text>
+                  <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
+                </Box>
 
                 {/* SUBMIT BUTTON FOR LIST */}
-              <Box sx={{ maxWidth: 300 }} mx="auto">
+                <Box sx={{ maxWidth: 300 }} mx="auto">
                   <Group position="right" mt="md">
                     <Button type="submit">Submit</Button>
                   </Group>
-              </Box>
+                </Box>
               </form>
             </Container>
           ) : (
             // NOTE SECTION
             <Container>
               <form onSubmit={handleNoteSubmit}>
-              <Input placeholder="Title" ref={noteTitleRef}/>
-              <RichTextEditor
-                value={initialValue}
-                ref={textAreaRef}
-                id="rte"
-                align="left"
-                controls={[
-                  ["bold", "italic", "underline", "strike", "clean"],
-                  ["h1", "h2", "h3", "h4"],
-                  ["link", "blockquote", "codeBlock"],
-                  ["alignLeft", "alignCenter", "alignRight"],
-                ]}
-              />
-              {/* SUBMIT BUTTON FOR NOTE */}
-              <Box sx={{ maxWidth: 300 }} mx="auto">
+                <Input placeholder="Title" ref={noteTitleRef} />
+                <RichTextEditor
+                  value={initialValue}
+                  ref={textAreaRef}
+                  id="rte"
+                  align="left"
+                  controls={[
+                    ["bold", "italic", "underline", "strike", "clean"],
+                    ["h1", "h2", "h3", "h4"],
+                    ["link", "blockquote", "codeBlock"],
+                    ["alignLeft", "alignCenter", "alignRight"],
+                  ]}
+                />
+                {/* SUBMIT BUTTON FOR NOTE */}
+                <Box sx={{ maxWidth: 300 }} mx="auto">
                   <Group position="right" mt="md">
                     <Button type="submit">Submit</Button>
                   </Group>
-              </Box>
+                </Box>
               </form>
             </Container>
           )}

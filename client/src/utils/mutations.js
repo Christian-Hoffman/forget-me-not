@@ -89,8 +89,8 @@ mutation EditNote($noteIdEN: ID!, $titleEN: String!, $bodyEN: String!, $isPublic
 `;
 
 export const ADD_LIST = gql`
-mutation AddList($titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolean!) {
-  addList(title: $titleAL, listItems: $listItemsAL, isPublic: $isPublicAL) {
+mutation AddList($titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolean!, $isOrderedAL: Boolean!) {
+  addList(title: $titleAL, listItems: $listItemsAL, isPublic: $isPublicAL, isOrdered: $isOrderedAL) {
     _id
     username
     lists {
@@ -98,6 +98,7 @@ mutation AddList($titleAL: String!, $listItemsAL: [String]!, $isPublicAL: Boolea
       title
       createdAt
       isPublic
+      isOrdered
       listItems
     }
   }
