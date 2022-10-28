@@ -11,34 +11,98 @@ import {
 
 function Navbar() {
   return (
-    <Tabs defaultValue="gallery" position="right">
-      <Tabs.List>
-        <Tabs.Tab value="gallery" ><Text component={Link} variant="link" to="/create">Create</Text></Tabs.Tab>
-        <Tabs.Tab value="messages" ><Text component={Link} variant="link" to="/login">Login</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/signup">Sign Up</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/me">Profile</Text></Tabs.Tab>
-        <Tabs.Tab value="settings" ><Text component={Link} variant="link" to="/users/:id">Other Profiles</Text></Tabs.Tab>
+    <Tabs defaultValue="Create" >
+      <Tabs.List position="right">
+        <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
+        <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
+        <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
+        <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
+        <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" ><Text variant="link">Other Profiles</Text></Tabs.Tab>
       </Tabs.List>
-
-      <Tabs.Panel value="gallery" pt="xs">
-
+      <Tabs.Panel value="Create" pt="xs">
       </Tabs.Panel>
 
-      <Tabs.Panel value="messages" pt="xs">
-
+      <Tabs.Panel value="Login" pt="xs">
       </Tabs.Panel>
 
-      <Tabs.Panel value="settings" pt="xs">
+      <Tabs.Panel value="Sign Up" pt="xs">
+      </Tabs.Panel>
 
+      <Tabs.Panel value="Profile" pt="xs">
+      </Tabs.Panel>
+
+      <Tabs.Panel value="Other Profiles" pt="xs">
       </Tabs.Panel>
     </Tabs>
   );
 }
 
+// import React from 'react';
+// import { useRef, useState, useLayoutEffect } from 'react';
+
+// import Auth from '../../utils/auth';
+// import { Tabs, Text, MediaQuery, Burger } from '@mantine/core';
+// import {
+//   Browser as Router, Link,
+// } from "react-router-dom"
 
 
 
+// function Nav() {
+//   const [opened, setOpened] = useState(false);
+//   const title = opened ? 'Close navigation' : 'Open navigation';
+//   const handleBurger = () => {
+//     setOpened((o) => !o);
+//     if(opened){
+//       return(
+//         <div>Hello WOrld</div>
+//       )
+//     }
+//     else{
+//       return(
+//         <div>Dont be hello</div>
+//       )
+//     }
+//   }
+//   return (
+//     <div>
+//       <MediaQuery smallerThan={"sm"} styles={{ display: "none" }}>
+//         <Tabs defaultValue="Create" >
+//           <Tabs.List position="right">
+//             <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
+//             <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
+//             <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
+//             <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
+//             <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" ><Text variant="link">Other Profiles</Text></Tabs.Tab>
+//           </Tabs.List>
+//           <Tabs.Panel value="Create" pt="xs">
+//           </Tabs.Panel>
 
+//           <Tabs.Panel value="Login" pt="xs">
+//           </Tabs.Panel>
+
+//           <Tabs.Panel value="Sign Up" pt="xs">
+//           </Tabs.Panel>
+
+//           <Tabs.Panel value="Profile" pt="xs">
+//           </Tabs.Panel>
+
+//           <Tabs.Panel value="Other Profiles" pt="xs">
+//           </Tabs.Panel>
+//         </Tabs>
+//       </MediaQuery>
+//       <MediaQuery largerThan={"sm"} styles={{ display: "none" }} >
+//         <Burger
+//           opened={opened}
+//           color="#228be6"
+//           title={title}
+//           onClick={()=> handleBurger()}
+//         />
+
+//       </MediaQuery>
+//     </div>
+//   );
+// }
 
 
 // function Navbar() {
