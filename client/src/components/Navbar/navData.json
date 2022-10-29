@@ -1,0 +1,39 @@
+{
+
+    "toggleData": [
+      {
+        "label": "Home",
+        "to": "/"
+      },
+      {
+        "label": "Other Profiles",
+        "to": "/users/:id"
+      },
+      {
+        "label": "New Post",
+        "to": "/create"
+      },
+      {
+        "label": "Profile",
+        "to": "/me"
+      }
+    ],
+    "bottomData": [
+      {
+        "label": "Home",
+        "to": "/"
+      },
+      {
+        "label": "Other Profiles",
+        "to": "/users/:id"
+      },
+      {
+        "label": "Login",
+        "to": "/login"
+      },
+      {
+        "label": "Signup",
+        "to": "/signup"
+      }
+    ]
+  }
