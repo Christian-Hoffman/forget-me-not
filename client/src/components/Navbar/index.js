@@ -103,14 +103,18 @@ function Nav() {
   return (
     <div>
       <MediaQuery smallerThan={"sm"} styles={{ display: "none" }}>
-        <Tabs defaultValue="Create" >
+        <Tabs defaultValue="Home" >
           <Tabs.List position="right">
+            <Tabs.Tab component={Link} to="/" value="Home"><Text variant="link">Home</Text></Tabs.Tab>
             <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
             <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
             <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
             <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
             <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" ><Text variant="link">Other Profiles</Text></Tabs.Tab>
           </Tabs.List>
+          <Tabs.Panel value="Home" pt="xs">
+          </Tabs.Panel>
+
           <Tabs.Panel value="Create" pt="xs">
           </Tabs.Panel>
 
