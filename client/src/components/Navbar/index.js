@@ -1,18 +1,5 @@
-// import React from 'react';
-
-// import Auth from '../../utils/auth';
-// import { Tabs, Text } from '@mantine/core';
-// import {
-//   Browser as Router,
-//   Link,
-// } from "react-router-dom"
-
-
-
 import React from 'react';
 import { useRef, useState, useLayoutEffect } from 'react';
-
-import Auth from '../../utils/auth';
 import {
   Tabs,
   Text,
@@ -26,9 +13,13 @@ import {
   Browser as Router, Link,
 } from "react-router-dom"
 
+import Auth from '../../utils/auth';
+import data from "./navData.json"
+
 function Nav() {
   const [opened, setOpened] = useState(false);
   const title = opened ? 'Close navigation' : 'Open navigation';
+  const token = Auth.loggedIn() || null;
 
   const styles = {
     burgerNav: {
@@ -41,63 +32,43 @@ function Nav() {
       paddingTop: "50px",
     },
     navDiv: {
-      paddingTop:"10px",
+      paddingTop: "10px",
       fontWeight: "bolder",
-      fontSize:"234"
+      fontSize: "234px"
     }
 
   }
 
   const [active, setActive] = useState(0);
+  const loginItems = data.toggleData.map((item, index) => (
+    <div style={styles.navDiv}>
+      <NavLink
+        key={item.label}
+        label={item.label}
+        active={index === active}
+        onClick={() => { setActive(index); setOpened(false) }}
+        color="#339af0"
+        component={Link}
+        to={item.to}
+        variant="filled"
+      />
+    </div>
+  ));
 
-  const topData = [
-    {
-      label: "Home", to: "/"
-    },
-    {
-      label: 'New Post', to: "/create"
-    },
-    {
-      label: "Profile", to: "/me"
-    },
-    {
-      label: "Users", to: "/users:id"
-    }
-  ];
 
-  const bottomData =[
-    {
-      label: 'Login/Logout', to: "/login"
-    },
-    {
-      label: 'Signup', to: "/signup"
-    },
-  ]
-
-  const topItems = topData.map((item, index) => (
+  const logoutItems = data.bottomData.map((item, index) => (
     <div style={styles.navDiv}>
     <NavLink
       key={item.label}
       label={item.label}
       active={index === active}
-      onClick={() => {setActive(index); setOpened(false)}}
+      onClick={() => { setActive(index); setOpened(false) }}
       color="#339af0"
       component={Link}
       to={item.to}
       variant="filled"
-    />
+      />
     </div>
-  ));
-
-  const bottomItems = bottomData.map((item, index) => (
-    <NavLink
-      key={item.label}
-      label={item.label}
-      onClick={() => {setActive(index); setOpened(false)}}
-      color="#339af0"
-      component={Link}
-      to={item.to}
-    />
   ));
 
   return (
@@ -106,10 +77,19 @@ function Nav() {
         <Tabs defaultValue="Home" >
           <Tabs.List position="right">
             <Tabs.Tab component={Link} to="/" value="Home"><Text variant="link">Home</Text></Tabs.Tab>
-            <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
-            <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
-            <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
-            <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
+            {token ? (<>
+              <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
+              <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
+              <Tabs.Tab component={Link} to="/" value="Logout" onClick={() => Auth.logout()}><Text variant="link">Logout</Text></Tabs.Tab>
+            </>
+
+            ) : (
+              <>
+                <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
+                <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
+              </>
+
+            )}
             <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" ><Text variant="link">Other Profiles</Text></Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="Home" pt="xs">
@@ -147,45 +127,24 @@ function Nav() {
         onClose={() => setOpened(false)}
       >
         <Title order={1} align="center" mt="lg">Navigation</Title>
-        {topItems}
-        <div style={styles.loginDiv}>
-          {bottomItems}
-        </div>
+        {token ? (
+          <>
+            {loginItems}
+            <div style={styles.navDiv}>
+            <NavLink
+              label={"Logout"}
+              onClick={() => { Auth.logout(); setOpened(false) }}
+              component={Link}
+              to={"/"}
+              />
+              </div>
+          </>
+        ) : (
+            logoutItems
+        )}
+
       </Drawer>
     </div>
   );
 }
-
-
-// function Navbar() {
-//   const logout = (event) => {
-//     event.preventDefault();
-//     Auth.logout();
-//   };
-
-//   if (Auth.loggedIn()) {
-//     return (
-//       <>
-//         <Link to="/me">
-//           {Auth.getProfile().data.username}'s profile
-//         </Link>
-//         <button onClick={logout}>
-//           Logout
-//         </button>
-//       </>
-//     );
-//   }
-//   // If logged out show login controls
-//   return (
-//     <>
-//       <Link to="/login">
-//         Login
-//       </Link>
-//       <Link to="/signup">
-//         Signup
-//       </Link>
-//     </>
-//   )
-// }
-
 export default Nav
