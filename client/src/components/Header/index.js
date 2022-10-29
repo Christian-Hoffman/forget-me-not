@@ -1,17 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
+import Banner from "./photos/Banner.png"
 
 const Header = () => {
   return (
     <header>
       <div>
-        <Link to="/">
-          <h1>User List</h1>
-        </Link>
+        <img src={Banner} alt="Banner of Flowers"></img>
       </div>
       <div>
-        <p>Simple App to View Users.</p>
         <Navbar />
       </div>
     </header>
