@@ -72,9 +72,12 @@ const Createlist = () => {
         variables: { titleAL: listTitle, listItemsAL: allListItems, isPublicAL: visibility, isOrderedAL: orderType},
       });
       console.log(data);
+
+      
     } catch (err) {
       console.log(err);
     }
+    window.location.replace("/me")
   };
   // Grabs user inputted data from note creation
   const handleNoteSubmit = async (e) => {
@@ -95,6 +98,7 @@ const Createlist = () => {
     } catch (err) {
       console.log(err);
     }
+  window.location.replace("/me")
   };
   // to display and allow addition of more list items
   const fields = listForm.values.list.map((_, index) => (
@@ -263,7 +267,7 @@ const Createlist = () => {
                 {/* SUBMIT BUTTON FOR NOTE */}
                 <Box sx={{ maxWidth: 300 }} mx="auto">
                   <Group position="right" mt="md">
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" >Submit</Button>
                   </Group>
                 </Box>
               </form>
