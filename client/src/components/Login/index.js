@@ -1,44 +1,51 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TextInput, MediaQuery, Title, PasswordInput, Button } from "@mantine/core"
+
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
- 
+
 import Auth from '../../utils/auth';
- 
+
 const Login = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
- 
+
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
- 
+
+
+
     setFormState({
       ...formState,
       [name]: value,
     });
+
+    console.log(formState)
   };
- 
+
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log(formState)
       const { data } = await login({
         variables: { ...formState },
       });
- 
+
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
     }
- 
+
     // clear form values
     setFormState({
       email: '',
       password: '',
     });
   };
- 
+
   const renderForm = () => {
     if (data) {
       return (
@@ -49,38 +56,79 @@ const Login = () => {
       )
     }
     return (
-      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center", marginTop:"50px", marginBottom:"450px", flexDirection:"column"}}>
-              <h4 style={{marginBottom:"20px", fontSize:"40px"}}>Login</h4>
-        <input style={{display:"flex", fontSize:"30px", borderRadius:"10px", padding:"10px"}}
-          placeholder="Your email"
-          name="email"
-          type="email"
-          value={formState.email}
+      <form onSubmit={handleFormSubmit} style={{ alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column", marginBottom: "400px" }}>
+        <TextInput
+          withAsterisk
+          label="Your Email"
+          name={"email"}
+          size={"xl"}
+          placeholder='test@user.com'
           onChange={handleChange}
+          radius={"xl"}
+          style={{ width: "50vw" }}
         />
-        <input style={{ display:"flex" , fontSize:"30px", borderRadius:"10px", marginTop:"10px", padding:"10px"}}
-          placeholder="******"
-          name="password"
-          type="password"
-          value={formState.password}
-          onChange={handleChange}
-        />
-        <button type="submit" style={{ display:"flex", fontSize:"30px", borderRadius:"10px", marginTop:"10px"}}>
+        <MediaQuery smallerThan={"sm"}>
+          <PasswordInput
+            withAsterisk
+            name={"password"}
+            size={"xl"}
+            label="Your Password"
+            placeholder="******"
+            onChange={handleChange}
+            radius={"xl"}
+            style={{ width: "50vw" }}
+          />
+        </MediaQuery>
+
+        <Button type="submit"
+          style={{ display: "flex", fontSize: "30px", borderRadius: "10px", marginTop: "24px" }}
+          variant="gradient"
+          gradient={{ from: 'indigo', to: 'cyan' }}
+          size={"xl"}
+        >
           Submit
-        </button>
+        </Button>
       </form>
     );
   };
- 
+
   return (
     <main>
       <h4></h4>
       <div>
+        <div>
+          <Title order={1} style={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            marginBottom: "20px",
+            fontSize: "40px",
+            marginTop: "100px",
+          }}>
+            Login
+          </Title>
+        </div>
+        {error &&
+          <div>
+            <Title
+              order={3}
+              style={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+              color="red.8">
+                
+              Incorrect Email or Password!
+            </Title>
+          </div>}
         {renderForm()}
-        {error && <div>{error.message}</div>}
+
       </div>
     </main>
   );
 };
- 
+
 export default Login;
