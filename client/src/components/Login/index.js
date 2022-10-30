@@ -120,7 +120,6 @@ const Login = () => {
                 flexDirection: "column",
               }}
               color="red.8">
-                
               Incorrect Email or Password!
             </Title>
           </div>}
