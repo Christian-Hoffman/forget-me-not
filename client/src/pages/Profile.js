@@ -13,8 +13,16 @@ import {
 } from "../utils/mutations";
 // Components
 import UserList from "../components/UserList";
-import { Card, Text, Badge, Group, Container, Button, Title } from "@mantine/core";
-import { async } from "rxjs";
+import {
+  Card,
+  Text,
+  Badge,
+  Group,
+  Container,
+  Button,
+  Title,
+  List,
+} from "@mantine/core";
 
 const Profile = () => {
   const { id } = useParams();
@@ -33,9 +41,24 @@ const Profile = () => {
   const users = usersData?.users || [];
 
   const [deleteNote] = useMutation(DELETE_NOTE);
-  // const [deleteList] = useMutation(DELETE_LIST);
+  const [deleteList] = useMutation(DELETE_LIST);
   const [editNote] = useMutation(EDIT_NOTE);
   // const [editList] = useMutation(EDIT_LIST);
+
+  const handleDeleteList = async (listIdDL) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await deleteList({ variables: { listIdDL: listIdDL } });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const editingListInterface = () => {};
 
   const handleDeleteNote = async (noteIdDN) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -145,38 +168,46 @@ const Profile = () => {
     );
   };
 
-
   //Rendering Note Body in pure HTML
   const renderNoteBody = (note) => {
-    return <div dangerouslySetInnerHTML={{__html: note.body}} />
-  }
-
+    return <div dangerouslySetInnerHTML={{ __html: note.body }} />;
+  };
 
   const styles = {
-    title : {
+    title: {
       display: "flex",
-       justifyContent: "center"
+      justifyContent: "center",
     },
     card: {
       padding: "20px",
-    }
-  }
+    },
+  };
   return (
     <div>
       <div>
-        <Title order={2} style={styles.title} > Viewing {id ? `${user.username}'s` : "your"} profile. </Title>
+        <Title order={2} style={styles.title}>
+          {" "}
+          Viewing {id ? `${user.username}'s` : "your"} profile.{" "}
+        </Title>
         {renderCurrentUserInfo()}
         {renderUserList()}
       </div>
       {/* NOTES */}
       <Container>
-        {user.notes.map((note) => {
+        {data.me.notes.map((note) => {
           return (
-            <Card shadow="lg" p="lg" radius="md" withBorder key={note._id} style={styles.card}>
+            <Card
+              shadow="lg"
+              p="lg"
+              radius="md"
+              withBorder
+              key={note._id}
+              style={styles.card}
+            >
               <Card.Section>
                 <Group position="left">
-                <div></div>
-                 <Title order={2}>{note.title}</Title>
+                  <div></div>
+                  <Title order={2}>{note.title}</Title>
                 </Group>
                 {renderNoteBody(note)}
                 <Text>{note.createdAt}</Text>
@@ -205,8 +236,8 @@ const Profile = () => {
               ["alignLeft", "alignCenter", "alignRight"],
             ]}
           /> */}
-          {/* SUBMIT BUTTON FOR NOTE */}
-          {/* <Box sx={{ maxWidth: 300 }} mx="auto">
+      {/* SUBMIT BUTTON FOR NOTE */}
+      {/* <Box sx={{ maxWidth: 300 }} mx="auto">
             <Group position="right" mt="md">
               <Button type="submit">Submit</Button>
             </Group>
@@ -214,7 +245,51 @@ const Profile = () => {
         </form>
       </Container> */}
       ;{/* LISTS */}
-      <Container></Container>
+      <Container>
+        {data.me.lists.map((list) => {
+          return (
+            <Card
+              shadow="lg"
+              p="lg"
+              radius="md"
+              withBorder
+              key={list._id}
+              style={styles.card}
+            >
+              <Card.Section>
+                <Group position="left">
+                  <div></div>
+                  <Title order={2}>{list.title}</Title>
+                </Group>
+
+                <Text>
+                  {list.isOrdered ? (
+                    <List type="ordered">
+                      {list.listItems.map((i) => (
+                        <List.Item>{[i]}</List.Item>
+                      ))}
+                    </List>
+                  ) : (
+                    <List>
+                      {list.listItems.map((i) => (
+                        <List.Item>{[i]}</List.Item>
+                      ))}
+                    </List>
+                  )}
+                </Text>
+
+                <Text>{list.createdAt}</Text>
+                <Button onClick={() => handleDeleteList(list._id)}>
+                  Delete Note
+                </Button>
+                <Button onClick={() => editingListInterface(list._id)}>
+                  Edit Note
+                </Button>
+              </Card.Section>
+            </Card>
+          );
+        })}
+      </Container>
     </div>
   );
 };
