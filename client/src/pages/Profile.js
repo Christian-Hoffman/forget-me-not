@@ -192,6 +192,8 @@ const Profile = () => {
         {renderCurrentUserInfo()}
         {renderUserList()}
       </div>
+
+      
       {/* NOTES */}
       <Container>
         {data.me.notes.map((note) => {
@@ -244,7 +246,10 @@ const Profile = () => {
           </Box>
         </form>
       </Container> */}
-      ;{/* LISTS */}
+      ;
+      
+      
+      {/* LISTS */}
       <Container>
         {data.me.lists.map((list) => {
           return (
