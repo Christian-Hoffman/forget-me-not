@@ -8,16 +8,22 @@ import {
   Burger,
   Title,
   NavLink,
+  Modal
 } from '@mantine/core';
 import {
   Browser as Router, Link,
 } from "react-router-dom"
 
+import Login from "../Login"
+import Signup from '../Signup';
 import Auth from '../../utils/auth';
 import data from "./navData.json"
 
 function Nav() {
   const [opened, setOpened] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
+
   const title = opened ? 'Close navigation' : 'Open navigation';
   const token = Auth.loggedIn() || null;
 
@@ -38,7 +44,7 @@ function Nav() {
     }
 
   }
-
+  //Items that show when user is logged in, small mode
   const [active, setActive] = useState(0);
   const loginItems = data.toggleData.map((item, index) => (
     <div style={styles.navDiv}>
@@ -46,7 +52,7 @@ function Nav() {
         key={item.label}
         label={item.label}
         active={index === active}
-        onClick={() => { setActive(index); setOpened(false) }}
+        onClick={() => { setActive(index); setOpened(false); }}
         color="#339af0"
         component={Link}
         to={item.to}
@@ -55,18 +61,27 @@ function Nav() {
     </div>
   ));
 
-
+  //Items that show when user is logged out, small mode
   const logoutItems = data.bottomData.map((item, index) => (
     <div style={styles.navDiv}>
-    <NavLink
-      key={item.label}
-      label={item.label}
-      active={index === active}
-      onClick={() => { setActive(index); setOpened(false) }}
-      color="#339af0"
-      component={Link}
-      to={item.to}
-      variant="filled"
+      <NavLink
+        key={item.label}
+        label={item.label}
+        active={index === active}
+        onClick={() => {
+          setActive(index);
+          setOpened(false);
+          if (index == 2) {
+            setLoginOpen(true)
+          }
+          else if (index == 3) {
+            setSignupOpen(true)
+          };
+        }}
+        color="#339af0"
+        component={Link}
+        to={item.to}
+        variant="filled"
       />
     </div>
   ));
@@ -77,16 +92,30 @@ function Nav() {
         <Tabs defaultValue="Home" >
           <Tabs.List position="right">
             <Tabs.Tab component={Link} to="/" value="Home"><Text variant="link">Home</Text></Tabs.Tab>
-            {token ? (<>
-              <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
-              <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
-              <Tabs.Tab component={Link} to="/" value="Logout" onClick={() => Auth.logout()}><Text variant="link">Logout</Text></Tabs.Tab>
-            </>
-
+            {token ? (
+              <>
+                <Tabs.Tab component={Link} to="/create" value="Create" ><Text variant="link">Create</Text></Tabs.Tab>
+                <Tabs.Tab component={Link} to="/me" value="Profile" ><Text variant="link">Profile</Text></Tabs.Tab>
+                <Tabs.Tab component={Link} to="/" value="Logout" onClick={() => Auth.logout()}><Text variant="link">Logout</Text></Tabs.Tab>
+              </>
             ) : (
               <>
-                <Tabs.Tab component={Link} to="/login" value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
-                <Tabs.Tab component={Link} to="/signup" value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
+                <Tabs.Tab onClick={() => setLoginOpen(true)} value="Login" ><Text variant="link">Login</Text></Tabs.Tab>
+                <Tabs.Tab onClick={() => setSignupOpen(true)} value="Sign Up" ><Text variant="link">Sign Up</Text></Tabs.Tab>
+                <Modal
+                  size="calc(100vw - 87px)"
+                  opened={loginOpen}
+                  onClose={() => setLoginOpen(false)}
+                >
+                  <Login />
+                </Modal>
+                <Modal
+                  size="calc(100vw - 87px)"
+                  opened={signupOpen}
+                  onClose={() => setSignupOpen(false)}
+                >
+                  <Signup />
+                </Modal>
               </>
 
             )}
@@ -131,16 +160,16 @@ function Nav() {
           <>
             {loginItems}
             <div style={styles.navDiv}>
-            <NavLink
-              label={"Logout"}
-              onClick={() => { Auth.logout(); setOpened(false) }}
-              component={Link}
-              to={"/"}
+              <NavLink
+                label={"Logout"}
+                onClick={() => { Auth.logout(); setOpened(false) }}
+                component={Link}
+                to={"/"}
               />
-              </div>
+            </div>
           </>
         ) : (
-            logoutItems
+          logoutItems
         )}
 
       </Drawer>
