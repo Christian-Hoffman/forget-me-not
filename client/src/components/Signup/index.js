@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
+import { ADD_USER } from '../../utils/mutations';
 
-import Auth from '../utils/auth';
+import Auth from '../../utils/auth';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -47,7 +47,7 @@ const Signup = () => {
       )
     } 
     return (
-      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center", marginTop:"450px", flexDirection:"column"}}>
+      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center",  marginTop:"50px", flexDirection:"column"}}>
         <h4 style={{marginBottom:"20px", fontSize:"40px"}}>Sign Up</h4>
         <input style={{display:"flex", fontSize:"30px", borderRadius:"10px", padding:"10px"}}
           placeholder="Your username"
