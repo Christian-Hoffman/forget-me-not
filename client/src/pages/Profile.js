@@ -13,7 +13,7 @@ import {
 } from "../utils/mutations";
 // Components
 import UserList from "../components/UserList";
-import { Card, Text, Badge, Group, Container, Button } from "@mantine/core";
+import { Card, Text, Badge, Group, Container, Button, Title } from "@mantine/core";
 import { async } from "rxjs";
 
 const Profile = () => {
@@ -145,10 +145,26 @@ const Profile = () => {
     );
   };
 
+
+  //Rendering Note Body in pure HTML
+  const renderNoteBody = (note) => {
+    return <div dangerouslySetInnerHTML={{__html: note.body}} />
+  }
+
+
+  const styles = {
+    title : {
+      display: "flex",
+       justifyContent: "center"
+    },
+    card: {
+      padding: "20px",
+    }
+  }
   return (
     <div>
       <div>
-        <h2>Viewing {id ? `${user.username}'s` : "your"} profile.</h2>
+        <Title order={2} style={styles.title} > Viewing {id ? `${user.username}'s` : "your"} profile. </Title>
         {renderCurrentUserInfo()}
         {renderUserList()}
       </div>
@@ -156,12 +172,13 @@ const Profile = () => {
       <Container>
         {user.notes.map((note) => {
           return (
-            <Card key={note._id}>
+            <Card shadow="lg" p="lg" radius="md" withBorder key={note._id} style={styles.card}>
               <Card.Section>
-                <Group position="center">
-                  <Text>{note.title}</Text>
+                <Group position="left">
+                <div></div>
+                 <Title order={2}>{note.title}</Title>
                 </Group>
-                <Text>{note.body}</Text>
+                {renderNoteBody(note)}
                 <Text>{note.createdAt}</Text>
                 <Button onClick={() => handleDeleteNote(note._id)}>
                   Delete Note
