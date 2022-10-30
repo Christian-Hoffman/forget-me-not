@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TextInput, MediaQuery, Title, PasswordInput, Button } from "@mantine/core"
 
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../../utils/mutations';
@@ -40,39 +41,55 @@ const Signup = () => {
   const renderForm = () => {
     if (data) {
       return (
-      <p>
-        Success! You may now head{' '}
-        <Link to="/">back to the homepage.</Link>
-      </p>
+        <p>
+          Success! You may now head{' '}
+          <Link to="/">back to the homepage.</Link>
+        </p>
       )
-    } 
+    }
     return (
-      <form onSubmit={handleFormSubmit} style={{alignItems: "center", display:"flex", justifyContent:"center",  marginTop:"50px", flexDirection:"column"}}>
-        <h4 style={{marginBottom:"20px", fontSize:"40px"}}>Sign Up</h4>
-        <input style={{display:"flex", fontSize:"30px", borderRadius:"10px", padding:"10px"}}
-          placeholder="Your username"
+      <form onSubmit={handleFormSubmit} style={{ alignItems: "center", display: "flex", justifyContent: "center", marginTop: "50px", flexDirection: "column", marginBottom: "225px" }}>
+        <TextInput
+          withAsterisk
+          label="Your Username"
           name="username"
-          type="text"
-          value={formState.name}
+          size="xl"
+          placeholder="Test User"
           onChange={handleChange}
+          radius="xl"
+          style={{ width: "50vw", marginBottom: "20px" }}
         />
-        <input style={{ display:"flex" , fontSize:"30px", borderRadius:"10px", marginTop:"10px", padding:"10px"}}
-          placeholder="Your email"
+
+        <TextInput
+          withAsterisk
+          label="Your Email"
           name="email"
-          type="email"
-          value={formState.email}
+          size="xl"
+          placeholder="test@user.com"
           onChange={handleChange}
-        />
-        <input style={{ display:"flex" , fontSize:"30px", borderRadius:"10px", marginTop:"10px", padding:"10px"}}
-          placeholder="******"
+          radius="xl"
+          style={{ width: "50vw", marginBottom: "20px" }}
+          />
+
+        <PasswordInput
+          withAsterisk
+          label="Your Password"
           name="password"
-          type="password"
-          value={formState.password}
+          size="xl"
+          placeholder="******"
           onChange={handleChange}
-        />
-        <button type="submit" style={{ display:"flex", fontSize:"30px", borderRadius:"10px", marginTop:"10px"}}>
+          radius="xl"
+          style={{ width: "50vw", marginBottom: "20px" }}
+          />
+
+        <Button type="submit"
+          style={{ display: "flex", fontSize: "30px", borderRadius: "10px", marginTop: "24px" }}
+          variant="gradient"
+          gradient={{ from: 'indigo', to: 'cyan' }}
+          size={"xl"}
+        >
           Submit
-        </button>
+        </Button>
       </form>
     );
   };
@@ -81,8 +98,35 @@ const Signup = () => {
     <main>
       <h4></h4>
       <div>
+        <div>
+          <Title order={1} style={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            marginBottom: "20px",
+            fontSize: "40px",
+            marginTop: "100px",
+          }}>
+            Sign Up
+          </Title>
+        </div>
+        {error &&
+          <div>
+            <Title
+              order={3}
+              style={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+              color="red.8">
+              Incorrect Email or Password!
+            </Title>
+          </div>}
         {renderForm()}
-        {error && <div>{error.message}</div>}
+
       </div>
     </main>
   );
