@@ -14,6 +14,8 @@ import {
   Code,
   Center,
   Text,
+  Divider,
+  MediaQuery,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { RichTextEditor } from "@mantine/rte";
@@ -190,6 +192,8 @@ const Createlist = () => {
           </Grid.Col>
         </Container>
 
+        <Divider size="lg" orientation="vertical" />
+        
         {/* CREATE NOTE OR LIST SECTION */}
         <Container align="center" fluid>
           <Grid.Col md={9} lg={9}>

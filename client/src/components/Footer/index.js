@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: 120,
+    display: 'flex',
+    justifyContent: 'align-items',
+    alignItems: 'center',
     borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
       }`,
   },
@@ -37,7 +40,10 @@ const Footer = () => {
       <div className={classes.footer}>
         <Container className={classes.inner}>
           <Group className={classes.links}>
-            <MantineLogo/>
+            <MantineLogo 
+            width={200}
+            fit="contain"/>
+            <p>Copyright &copy; 2022</p>
             <Anchor
               color="dimmed"
               key="Fun Link"
@@ -45,6 +51,30 @@ const Footer = () => {
               component={Link}
             >
               Home
+            </Anchor>
+            {/* <Anchor
+              color="dimmed"
+              key="Fun Link"
+              to="/create"
+              component={Link}
+            >
+              Create
+            </Anchor> */}
+            <Anchor
+              color="dimmed"
+              key="Fun Link"
+              to="/me"
+              component={Link}
+            >
+              Profile
+            </Anchor>
+            <Anchor
+              color="dimmed"
+              key="Fun Link"
+              to="/users/:id"
+              component={Link}
+            >
+              Other Profiles
             </Anchor>
             <Anchor
               color="dimmed"
@@ -54,7 +84,6 @@ const Footer = () => {
             >
               GitHub
             </Anchor>
-            {/* <p>Copyright &copy; 2022</p> */}
           </Group>
         </Container>
       </div>
