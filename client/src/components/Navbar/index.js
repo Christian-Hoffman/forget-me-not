@@ -8,7 +8,9 @@ import {
   Burger,
   Title,
   NavLink,
-  Modal
+  Modal,
+  Container,
+  TextInput
 } from '@mantine/core';
 import {
   Browser as Router, Link,
@@ -119,7 +121,10 @@ function Nav() {
               </>
 
             )}
-            <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" ><Text variant="link">Other Profiles</Text></Tabs.Tab>
+            <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" > <Container>
+              <TextInput placeholder="Search For a Profile"/>
+            </Container></Tabs.Tab>
+            
           </Tabs.List>
           <Tabs.Panel value="Home" pt="xs">
           </Tabs.Panel>
@@ -139,6 +144,9 @@ function Nav() {
           <Tabs.Panel value="Other Profiles" pt="xs">
           </Tabs.Panel>
         </Tabs>
+
+       
+
       </MediaQuery>
       <div style={styles.burgerNav}>
         <MediaQuery largerThan={"sm"} styles={{ display: "none" }} >
