@@ -27,9 +27,9 @@ const Home = () => {
 
   return (
     <main>
-      <div>{renderUsername()}</div>
+      {/* <div>{renderUsername()}</div> */}
       <div><Homebody /></div>
-      <div>{renderUserList()}</div>
+      {/* <div>{renderUserList()}</div> */}
     </main>
   );
 };

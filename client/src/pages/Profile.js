@@ -169,15 +169,18 @@ const Profile = () => {
     if (usersLoading) return null;
     // Only renders users who's profile we're not currently viewing
     const notMeUsers = users.filter((o) => o._id !== user._id);
-    return <UserList users={notMeUsers} title="User List" />;
+    return <UserList  users={notMeUsers} title="User List" />;
   };
 
   const renderCurrentUserInfo = () => {
     if (id) return null;
     return (
-      <ul>
-        <li>username: {user.username}</li>
-        <li>email: {user.email}</li>
+      <ul><div style={{ display: "flex", fontSize: "30px",  marginTop: "24px", flexDirection: "column",
+      justifyContent: "center", alignItems: "center", marginBottom:"80px"}}
+      >
+      <p style={{}}>username: {user.username}</p>
+        <p>email: {user.email}</p>
+        </div>
       </ul>
     );
   };
@@ -197,14 +200,14 @@ const Profile = () => {
     },
   };
   return (
-    <div>
+    <div style={{marginBottom:"500px"}}>
       <div>
         <Title order={2} style={styles.title}>
           {" "}
           Viewing {id ? `${user.username}'s` : "your"} profile.{" "}
         </Title>
         {renderCurrentUserInfo()}
-        {renderUserList()}
+        {/* {renderUserList()} */}
       </div>
       {/* NOTES */}
       <Container>
@@ -302,7 +305,7 @@ const Profile = () => {
           </Box>
         </form>
       </Container> */}
-      ;{/* LISTS */}
+      {/* LISTS */}
       <Container>
         {data.me.lists.map((list) => {
           return (
