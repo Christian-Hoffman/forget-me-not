@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, Note } = require('../models');
 const { signToken } = require('../utils/auth');
 const format = require("../utils/dateFormat");
 
@@ -64,11 +64,13 @@ const resolvers = {
       return user;
     },
     editNote: async (parent, args, context) => {
+      // console.log(args);
       const user = await User.findOneAndUpdate(
         { "_id": context.user._id, "notes._id": args.noteId },
-        { $set: { notes: { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
+        { $set: { "notes.$": { title: args.title, body: args.body, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true },
       );
+
       return user;
     },
 
@@ -106,7 +108,7 @@ const resolvers = {
       console.log(args);
       const user = await User.findOneAndUpdate(
         { "_id": context.user._id, "lists._id": args.listId },
-        { $set: { lists: { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic } } },
+        { $set: { "lists.$": { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic } } },
         { new: true }
       );
       return user;
