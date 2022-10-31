@@ -214,10 +214,10 @@ const Profile = () => {
                 {renderNoteBody(note)}
                 <Text>{note.createdAt}</Text>
                 <Button onClick={() => handleDeleteNote(note._id)}>
-                  Delete Note
+                  Delete
                 </Button>
                 <Button onClick={() => editingNoteInterface(note._id)}>
-                  Edit Note
+                  Edit
                 </Button>
               </Card.Section>
             </Card>
@@ -285,10 +285,10 @@ const Profile = () => {
 
                 <Text>{list.createdAt}</Text>
                 <Button onClick={() => handleDeleteList(list._id)}>
-                  Delete Note
+                  Delete
                 </Button>
                 <Button onClick={() => editingListInterface(list._id)}>
-                  Edit Note
+                  Edit
                 </Button>
               </Card.Section>
             </Card>
