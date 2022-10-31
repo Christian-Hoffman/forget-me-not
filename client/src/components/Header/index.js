@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header>
       <div>
-        <img src={Banner} alt="Banner of Flowers"></img>
+        <img src={Banner} alt="Banner of Flowers" style={{width: "100%"}}></img>
       </div>
       <div>
         <Navbar />

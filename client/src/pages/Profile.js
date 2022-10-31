@@ -1,5 +1,5 @@
 // Node Modules
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 // Utilities
@@ -22,7 +22,11 @@ import {
   Button,
   Title,
   List,
+  Box,
+  Input,
+  Chip,
 } from "@mantine/core";
+import { RichTextEditor } from "@mantine/rte";
 
 const Profile = () => {
   const { id } = useParams();
@@ -75,6 +79,13 @@ const Profile = () => {
 
   const [noteData, setNoteData] = useState({});
 
+  const [editMode, setEditMode] = useState(false);
+
+  const textAreaRef = useRef();
+  const noteTitleRef = useRef();
+
+  const [checked, setChecked] = useState(false);
+
   const editingNoteInterface = async (noteId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
@@ -84,52 +95,55 @@ const Profile = () => {
     for (let i = 0; i < data.me.notes.length; i++) {
       if (data.me.notes[i]._id === noteId) {
         setNoteData(data.me.notes[i]);
+        console.log(data.me.notes[i]);
       }
     }
     console.log(noteData);
-    console.log(noteData.title);
-    // <Container>
-    //   <form onSubmit={handleNoteSubmit}>
-    //     <Input placeholder="Title" value={noteData.title} />
-    //     <RichTextEditor
-    //       value={noteData.body}
-    //       id="rte"
-    //       align="left"
-    //       controls={[
-    //         ["bold", "italic", "underline", "strike", "clean"],
-    //         ["h1", "h2", "h3", "h4"],
-    //         ["link", "blockquote", "codeBlock"],
-    //         ["alignLeft", "alignCenter", "alignRight"],
-    //       ]}
-    //     />
-    //     {/* SUBMIT BUTTON FOR NOTE */}
-    //     <Box sx={{ maxWidth: 300 }} mx="auto">
-    //       <Group position="right" mt="md">
-    //         <Button type="submit">Submit</Button>
-    //       </Group>
-    //     </Box>
-    //   </form>
-    // </Container>;
 
-    // try {
-    //   const { data } = await editNote({ variables: noteId });
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    setEditMode(true);
+
   };
 
-  // const handleEditNote = async (formData) => {
-  //   const token = Auth.loggedIn() ? Auth.getToken() : null;
-  //   if (!token) {
-  //     return false;
-  //   }
+  // const [formState, setFormState] = useState({titleEN: ""});
 
-  //   try {
-  //     const { data } = await editNote({ variables: formData });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+
+  //   setFormState({
+  //     ...formState,
+  //     [name]: value,
+  //   });
+
+  //   console.log(formState);
   // };
+
+  // same as visibility but for the editing page
+  const [viewable, setViewable] = useState(false);
+
+  const handleEditNote = async (e) => {
+    e.preventDefault();
+    const noteTitle = noteTitleRef.current.value;
+    const noteBody = textAreaRef.current.value;
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await editNote({
+        variables: {
+          noteIdEN: noteData._id,
+          titleEN: noteTitle,
+          bodyEN: noteBody,
+          isPublicEN: viewable,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    setEditMode(false);
+  };
 
   if (error) console.log(error);
 
@@ -192,37 +206,79 @@ const Profile = () => {
         {renderCurrentUserInfo()}
         {renderUserList()}
       </div>
-
-      
       {/* NOTES */}
       <Container>
-        {data.me.notes.map((note) => {
-          return (
-            <Card
-              shadow="lg"
-              p="lg"
-              radius="md"
-              withBorder
-              key={note._id}
-              style={styles.card}
-            >
-              <Card.Section>
-                <Group position="left">
-                  <div></div>
-                  <Title order={2}>{note.title}</Title>
+        {!editMode ? (
+          data.me.notes.map((note) => {
+            return (
+              <Card
+                shadow="lg"
+                p="lg"
+                radius="md"
+                withBorder
+                key={note._id}
+                style={styles.card}
+              >
+                <Card.Section>
+                  <Group position="left">
+                    <div></div>
+                    <Title order={2}>{note.title}</Title>
+                  </Group>
+                  {renderNoteBody(note)}
+                  <Text>{note.createdAt}</Text>
+                  <Button onClick={() => handleDeleteNote(note._id)}>
+                    Delete
+                  </Button>
+                  <Button onClick={() => editingNoteInterface(note._id)}>
+                    Edit
+                  </Button>
+                </Card.Section>
+              </Card>
+            );
+          })
+        ) : (
+          <>
+            <Chip.Group position="center">
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="1"
+                onClick={() => setViewable(true)}
+              >
+                Public
+              </Chip>
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="2"
+                onClick={() => setViewable(false)}
+              >
+                Private
+              </Chip>
+            </Chip.Group>
+            <form onSubmit={handleEditNote}>
+              <Input defaultValue={noteData.title} ref={noteTitleRef} />
+              <RichTextEditor
+                value={noteData.body}
+                ref={textAreaRef}
+                id="rte"
+                align="left"
+                controls={[
+                  ["bold", "italic", "underline", "strike", "clean"],
+                  ["h1", "h2", "h3", "h4"],
+                  ["link", "blockquote", "codeBlock"],
+                  ["alignLeft", "alignCenter", "alignRight"],
+                ]}
+              />
+              {/* SAVE BUTTON FOR NOTE */}
+              <Box sx={{ maxWidth: 300 }} mx="auto">
+                <Group position="right" mt="md">
+                  <Button type="submit">Save</Button>
                 </Group>
-                {renderNoteBody(note)}
-                <Text>{note.createdAt}</Text>
-                <Button onClick={() => handleDeleteNote(note._id)}>
-                  Delete
-                </Button>
-                <Button onClick={() => editingNoteInterface(note._id)}>
-                  Edit
-                </Button>
-              </Card.Section>
-            </Card>
-          );
-        })}
+              </Box>
+            </form>
+          </>
+        )}
       </Container>
       {/* <Container>
         <form onSubmit={handleNoteSubmit}>
@@ -246,10 +302,7 @@ const Profile = () => {
           </Box>
         </form>
       </Container> */}
-      ;
-      
-      
-      {/* LISTS */}
+      ;{/* LISTS */}
       <Container>
         {data.me.lists.map((list) => {
           return (
