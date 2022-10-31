@@ -30,7 +30,7 @@ import {
   Code,
   Center,
   Divider,
-  TextInput
+  TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { RichTextEditor } from "@mantine/rte";
@@ -68,14 +68,27 @@ const Profile = () => {
   };
 
   const [listData, setListData] = useState({});
+  const [listItemData, setListItemData] = useState([]);
   const [listEditMode, setListEditMode] = useState(false);
   const [listType, setListType] = useState(false);
+
+  const listTitleRef = useRef();
+
+  // const listArrayData = data.me.lists;
+  // console.log(listArrayData);
+
+  // const displayEditListItems = (data) => {
+  //   for (let i = 0; i < data.length; i++) {
+  //     return [i];
+  //   }
+  // };
 
   const editingListInterface = async (listId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
     }
+    // let listItemsArrayForState = [];
 
     for (let i = 0; i < data.me.lists.length; i++) {
       if (data.me.lists[i]._id === listId) {
@@ -83,14 +96,15 @@ const Profile = () => {
         console.log(data.me.lists[i]);
       }
     }
-    console.log(listData);
 
     setListEditMode(true);
   };
 
-  const listTitleRef = useRef();
-
-  // const 
+  // const displayEditListItems = (x) => {
+  //   for (let i = 0; i < x.length; i++) {
+  //     return [i];
+  //   }
+  // };
 
   const listForm = useForm({
     initialValues: {
@@ -117,8 +131,13 @@ const Profile = () => {
 
   const handleEditList = async (e) => {
     e.preventDefault(e);
+    const fullList = listForm.values.list;
+    let listArr = [];
+    for (let i = 0; i < fullList.length; i++) {
+      listArr.push(fullList[i].item);
+    }
     const listTitle = listTitleRef.current.value;
-    // const allListItems = ;
+    const allListItems = listArr;
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
@@ -126,7 +145,13 @@ const Profile = () => {
 
     try {
       const { data } = await editList({
-        variables: { listIdEL: listData._id, titleEN: listTitle },
+        variables: {
+          listIdEL: listData._id,
+          titleEL: listTitle,
+          listItemsEL: allListItems,
+          isPublicEL: viewable,
+          isOrdered: listType,
+        },
       });
     } catch (err) {
       console.log(err);
@@ -167,9 +192,9 @@ const Profile = () => {
       if (data.me.notes[i]._id === noteId) {
         setNoteData(data.me.notes[i]);
         console.log(data.me.notes[i]);
+        // console.log(noteData);
       }
     }
-    console.log(noteData);
 
     setEditMode(true);
   };
