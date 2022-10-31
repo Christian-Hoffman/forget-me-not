@@ -237,10 +237,10 @@ const Createlist = () => {
                   </Group>
 
                   {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
-                  <Text size="sm" weight={500} mt="md">
+                  {/* <Text size="sm" weight={500} mt="md">
                     Form values:
                   </Text>
-                  <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
+                  <Code block>{JSON.stringify(listForm.values, null, 2)}</Code> */}
                 </Box>
 
                 {/* SUBMIT BUTTON FOR LIST */}

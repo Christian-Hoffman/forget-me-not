@@ -13,6 +13,8 @@ import {
 } from "../utils/mutations";
 // Components
 import UserList from "../components/UserList";
+import { IconGripVertical } from "@tabler/icons";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   Card,
   Text,
@@ -25,7 +27,12 @@ import {
   Box,
   Input,
   Chip,
+  Code,
+  Center,
+  Divider,
+  TextInput
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { RichTextEditor } from "@mantine/rte";
 
 const Profile = () => {
@@ -62,6 +69,7 @@ const Profile = () => {
 
   const [listData, setListData] = useState({});
   const [listEditMode, setListEditMode] = useState(false);
+  const [listType, setListType] = useState(false);
 
   const editingListInterface = async (listId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -80,9 +88,51 @@ const Profile = () => {
     setListEditMode(true);
   };
 
+  const listTitleRef = useRef();
+
+  // const 
+
+  const listForm = useForm({
+    initialValues: {
+      list: [{ item: "" }],
+    },
+  });
+
+  // to display and allow addition of more list items
+  const fields = listForm.values.list.map((_, index) => (
+    <Draggable key={index} index={index} draggableId={index.toString()}>
+      {(provided) => (
+        <Group ref={provided.innerRef} mt="xs" {...provided.draggableProps}>
+          <Center {...provided.dragHandleProps}>
+            <IconGripVertical size={18} />
+          </Center>
+          <TextInput
+            placeholder=""
+            {...listForm.getInputProps(`list.${index}.item`)}
+          />
+        </Group>
+      )}
+    </Draggable>
+  ));
+
   const handleEditList = async (e) => {
     e.preventDefault(e);
-    
+    const listTitle = listTitleRef.current.value;
+    // const allListItems = ;
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await editList({
+        variables: { listIdEL: listData._id, titleEN: listTitle },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    setListEditMode(false);
   };
 
   const handleDeleteNote = async (noteIdDN) => {
@@ -182,11 +232,20 @@ const Profile = () => {
   const renderCurrentUserInfo = () => {
     if (id) return null;
     return (
-      <ul><div style={{ display: "flex", fontSize: "30px",  marginTop: "24px", flexDirection: "column",
-      justifyContent: "center", alignItems: "center", marginBottom:"80px"}}
-      >
-      <p style={{}}>username: {user.username}</p>
-        <p>email: {user.email}</p>
+      <ul>
+        <div
+          style={{
+            display: "flex",
+            fontSize: "30px",
+            marginTop: "24px",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "80px",
+          }}
+        >
+          <p style={{}}>username: {user.username}</p>
+          <p>email: {user.email}</p>
         </div>
       </ul>
     );
@@ -207,7 +266,7 @@ const Profile = () => {
     },
   };
   return (
-    <div style={{marginBottom:"500px"}}>
+    <div style={{ marginBottom: "500px" }}>
       <div>
         <Title order={2} style={styles.title}>
           {" "}
@@ -292,7 +351,7 @@ const Profile = () => {
       </Container>
       ;{/* LISTS */}
       <Container>
-        {/* {!listEditMode ? (
+        {!listEditMode ? (
           data.me.lists.map((list) => {
             return (
               <Card
@@ -337,50 +396,94 @@ const Profile = () => {
             );
           })
         ) : (
-          <form onSubmit={handleEditList}>
-            <Input placeholder="Title" ref={listTitleRef} />
-            <Box sx={{ maxWidth: 500 }} mx="auto">
-              <DragDropContext
-                onDragEnd={({ destination, source }) =>
-                  listForm.reorderListItem("list", {
-                    from: source.index,
-                    to: destination.index,
-                  })
-                }
+          <>
+            <Chip.Group position="center">
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="1"
+                onClick={() => setViewable(true)}
               >
-                <Droppable droppableId="dnd-list" direction="vertical">
-                  {(provided) => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {fields}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
-
-              <Group position="center" mt="md">
-                <Button
-                  onClick={() => listForm.insertListItem("list", { item: "" })}
+                Public
+              </Chip>
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="2"
+                onClick={() => setViewable(false)}
+              >
+                Private
+              </Chip>
+            </Chip.Group>
+            <Chip.Group
+              position="center"
+              id="listType"
+              // className={classes.listType}
+            >
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="1"
+                onClick={() => setListType(true)}
+              >
+                Ordered
+              </Chip>
+              <Chip
+                checked={checked}
+                onChange={() => setChecked((v) => !v)}
+                value="2"
+                onClick={() => setListType(false)}
+              >
+                Unordered
+              </Chip>
+            </Chip.Group>
+            <form onSubmit={handleEditList}>
+              <Input defaultValue={listData.title} ref={listTitleRef} />
+              <Box sx={{ maxWidth: 500 }} mx="auto">
+                <DragDropContext
+                  onDragEnd={({ destination, source }) =>
+                    listForm.reorderListItem("list", {
+                      from: source.index,
+                      to: destination.index,
+                    })
+                  }
                 >
-                  Add list item
-                </Button>
-              </Group> */}
+                  <Droppable droppableId="dnd-list" direction="vertical">
+                    {(provided) => (
+                      <div {...provided.droppableProps} ref={provided.innerRef}>
+                        {fields}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
 
-              {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
-              {/* <Text size="sm" weight={500} mt="md">
-                Form values:
-              </Text>
-              <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
-            </Box> */}
+                <Group position="center" mt="md">
+                  <Button
+                    onClick={() =>
+                      listForm.insertListItem("list", { item: "" })
+                    }
+                  >
+                    Add list item
+                  </Button>
+                </Group>
 
-            {/* SUBMIT BUTTON FOR LIST */}
-            {/* <Box sx={{ maxWidth: 300 }} mx="auto">
-              <Group position="right" mt="md">
-                <Button type="submit">Submit</Button>
-              </Group>
-            </Box>
-          </form>
-        )} */}
+                {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
+                <Text size="sm" weight={500} mt="md">
+                  Form values:
+                </Text>
+                <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
+              </Box>
+
+              {/* SUBMIT BUTTON FOR LIST */}
+              <Box sx={{ maxWidth: 300 }} mx="auto">
+                <Group position="right" mt="md">
+                  <Button type="submit">Submit</Button>
+                </Group>
+              </Box>
+            </form>
+          </>
+        )}
       </Container>
     </div>
   );

@@ -117,14 +117,15 @@ mutation DeleteList($listIdDL: ID!) {
       listItems
       createdAt
       isPublic
+      isOrdered
     }
   }
 }
 `;
 
 export const EDIT_LIST = gql`
-mutation EditList($listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $isPublicEL: Boolean!) {
-  editList(listId: $listIdEL, title: $titleEL, listItems: $listItemsEL, isPublic: $isPublicEL) {
+mutation EditList($listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $isPublicEL: Boolean!, $isOrdered: Boolean!) {
+  editList(listId: $listIdEL, title: $titleEL, listItems: $listItemsEL, isPublic: $isPublicEL, isOrdered: $isOrdered) {
     _id
     username
     lists {
@@ -133,6 +134,7 @@ mutation EditList($listIdEL: ID!, $titleEL: String!, $listItemsEL: [String]!, $i
       listItems
       createdAt
       isPublic
+      isOrdered
     }
   }
 }
