@@ -13,7 +13,7 @@ import {
   TextInput
 } from '@mantine/core';
 import {
-  Browser as Router, Link,
+  Browser as Router, Link, useNavigate
 } from "react-router-dom"
 
 import Login from "../Login"
@@ -21,10 +21,13 @@ import Signup from '../Signup';
 import Auth from '../../utils/auth';
 import data from "./navData.json"
 
-function Nav() {
+function Nav({setSearchTerm, searchTerm}) {
   const [opened, setOpened] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const [findUser, setFindUser] = useState("");
+  const searchBar = useRef();
+  const navigate = useNavigate();
 
   const title = opened ? 'Close navigation' : 'Open navigation';
   const token = Auth.loggedIn() || null;
@@ -121,8 +124,13 @@ function Nav() {
               </>
 
             )}
-            <Tabs.Tab component={Link} to="/users/:id" value="Other Profiles" > <Container>
-              <TextInput placeholder="Search For a Profile"/>
+            <Tabs.Tab value="Other Profiles" > <Container>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                navigate(`/${searchBar.current.value}`)
+                }}>
+              <TextInput placeholder="Search For a Profile" ref={searchBar}/>
+              </form>
             </Container></Tabs.Tab>
             
           </Tabs.List>
