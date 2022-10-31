@@ -108,7 +108,7 @@ const resolvers = {
       console.log(args);
       const user = await User.findOneAndUpdate(
         { "_id": context.user._id, "lists._id": args.listId },
-        { $set: { "lists.$": { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic } } },
+        { $set: { "lists.$": { title: args.title, listItems: args.listItems, createdAt: format(Date.now()), isPublic: args.isPublic, isOrdered: args.isOrdered } } },
         { new: true }
       );
       return user;
