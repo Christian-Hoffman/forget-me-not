@@ -36,8 +36,6 @@ const Profile = () => {
     variables: { id },
   });
 
-  // console.log(data);
-
   // Get a list of all users
   const { usersLoading, data: usersData } = useQuery(QUERY_USERS);
 
@@ -47,7 +45,7 @@ const Profile = () => {
   const [deleteNote] = useMutation(DELETE_NOTE);
   const [deleteList] = useMutation(DELETE_LIST);
   const [editNote] = useMutation(EDIT_NOTE);
-  // const [editList] = useMutation(EDIT_LIST);
+  const [editList] = useMutation(EDIT_LIST);
 
   const handleDeleteList = async (listIdDL) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -62,7 +60,30 @@ const Profile = () => {
     }
   };
 
-  const editingListInterface = () => {};
+  const [listData, setListData] = useState({});
+  const [listEditMode, setListEditMode] = useState(false);
+
+  const editingListInterface = async (listId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+
+    for (let i = 0; i < data.me.lists.length; i++) {
+      if (data.me.lists[i]._id === listId) {
+        setListData(data.me.lists[i]);
+        console.log(data.me.lists[i]);
+      }
+    }
+    console.log(listData);
+
+    setListEditMode(true);
+  };
+
+  const handleEditList = async (e) => {
+    e.preventDefault(e);
+    
+  };
 
   const handleDeleteNote = async (noteIdDN) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -79,12 +100,12 @@ const Profile = () => {
 
   const [noteData, setNoteData] = useState({});
 
-  const [editMode, setEditMode] = useState(false);
-
   const textAreaRef = useRef();
   const noteTitleRef = useRef();
 
   const [checked, setChecked] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
 
   const editingNoteInterface = async (noteId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -101,21 +122,7 @@ const Profile = () => {
     console.log(noteData);
 
     setEditMode(true);
-
   };
-
-  // const [formState, setFormState] = useState({titleEN: ""});
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-
-  //   setFormState({
-  //     ...formState,
-  //     [name]: value,
-  //   });
-
-  //   console.log(formState);
-  // };
 
   // same as visibility but for the editing page
   const [viewable, setViewable] = useState(false);
@@ -165,12 +172,12 @@ const Profile = () => {
     );
   }
 
-  const renderUserList = () => {
-    if (usersLoading) return null;
-    // Only renders users who's profile we're not currently viewing
-    const notMeUsers = users.filter((o) => o._id !== user._id);
-    return <UserList  users={notMeUsers} title="User List" />;
-  };
+  // const renderUserList = () => {
+  //   if (usersLoading) return null;
+  //   // Only renders users who's profile we're not currently viewing
+  //   const notMeUsers = users.filter((o) => o._id !== user._id);
+  //   return <UserList  users={notMeUsers} title="User List" />;
+  // };
 
   const renderCurrentUserInfo = () => {
     if (id) return null;
@@ -283,73 +290,97 @@ const Profile = () => {
           </>
         )}
       </Container>
-      {/* <Container>
-        <form onSubmit={handleNoteSubmit}>
-          <Input placeholder="Title" value={noteData.title} />
-          <RichTextEditor
-            value={noteData.body}
-            id="rte"
-            align="left"
-            controls={[
-              ["bold", "italic", "underline", "strike", "clean"],
-              ["h1", "h2", "h3", "h4"],
-              ["link", "blockquote", "codeBlock"],
-              ["alignLeft", "alignCenter", "alignRight"],
-            ]}
-          /> */}
-      {/* SUBMIT BUTTON FOR NOTE */}
-      {/* <Box sx={{ maxWidth: 300 }} mx="auto">
-            <Group position="right" mt="md">
-              <Button type="submit">Submit</Button>
-            </Group>
-          </Box>
-        </form>
-      </Container> */}
-      {/* LISTS */}
+      ;{/* LISTS */}
       <Container>
-        {data.me.lists.map((list) => {
-          return (
-            <Card
-              shadow="lg"
-              p="lg"
-              radius="md"
-              withBorder
-              key={list._id}
-              style={styles.card}
-            >
-              <Card.Section>
-                <Group position="left">
-                  <div></div>
-                  <Title order={2}>{list.title}</Title>
-                </Group>
+        {/* {!listEditMode ? (
+          data.me.lists.map((list) => {
+            return (
+              <Card
+                shadow="lg"
+                p="lg"
+                radius="md"
+                withBorder
+                key={list._id}
+                style={styles.card}
+              >
+                <Card.Section>
+                  <Group position="left">
+                    <div></div>
+                    <Title order={2}>{list.title}</Title>
+                  </Group>
 
-                <Text>
-                  {list.isOrdered ? (
-                    <List type="ordered">
-                      {list.listItems.map((i) => (
-                        <List.Item>{[i]}</List.Item>
-                      ))}
-                    </List>
-                  ) : (
-                    <List>
-                      {list.listItems.map((i) => (
-                        <List.Item>{[i]}</List.Item>
-                      ))}
-                    </List>
+                  <Text>
+                    {list.isOrdered ? (
+                      <List type="ordered">
+                        {list.listItems.map((i) => (
+                          <List.Item>{[i]}</List.Item>
+                        ))}
+                      </List>
+                    ) : (
+                      <List>
+                        {list.listItems.map((i) => (
+                          <List.Item>{[i]}</List.Item>
+                        ))}
+                      </List>
+                    )}
+                  </Text>
+
+                  <Text>{list.createdAt}</Text>
+                  <Button onClick={() => handleDeleteList(list._id)}>
+                    Delete
+                  </Button>
+                  <Button onClick={() => editingListInterface(list._id)}>
+                    Edit
+                  </Button>
+                </Card.Section>
+              </Card>
+            );
+          })
+        ) : (
+          <form onSubmit={handleEditList}>
+            <Input placeholder="Title" ref={listTitleRef} />
+            <Box sx={{ maxWidth: 500 }} mx="auto">
+              <DragDropContext
+                onDragEnd={({ destination, source }) =>
+                  listForm.reorderListItem("list", {
+                    from: source.index,
+                    to: destination.index,
+                  })
+                }
+              >
+                <Droppable droppableId="dnd-list" direction="vertical">
+                  {(provided) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                      {fields}
+                      {provided.placeholder}
+                    </div>
                   )}
-                </Text>
+                </Droppable>
+              </DragDropContext>
 
-                <Text>{list.createdAt}</Text>
-                <Button onClick={() => handleDeleteList(list._id)}>
-                  Delete
+              <Group position="center" mt="md">
+                <Button
+                  onClick={() => listForm.insertListItem("list", { item: "" })}
+                >
+                  Add list item
                 </Button>
-                <Button onClick={() => editingListInterface(list._id)}>
-                  Edit
-                </Button>
-              </Card.Section>
-            </Card>
-          );
-        })}
+              </Group> */}
+
+              {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
+              {/* <Text size="sm" weight={500} mt="md">
+                Form values:
+              </Text>
+              <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
+            </Box> */}
+
+            {/* SUBMIT BUTTON FOR LIST */}
+            {/* <Box sx={{ maxWidth: 300 }} mx="auto">
+              <Group position="right" mt="md">
+                <Button type="submit">Submit</Button>
+              </Group>
+            </Box>
+          </form>
+        )} */}
       </Container>
     </div>
   );
