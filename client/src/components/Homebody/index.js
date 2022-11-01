@@ -13,39 +13,41 @@ import {
 const mockdata = [
   {
     title: "My Top 5 Favorite Movies",
-    description:
-    <ol>
-      <li>"Fight Club"</li>
-      <li>"Star Wars Ep. IV"</li>
-      <li>"Spiderman: Into the Spiderverse"</li>
-      <li>"Godzilla vs. Mecha-Godzilla"</li>
-      <li>"A Bug's Life"</li>
-    </ol>
+    description: (
+      <ol>
+        <li>Fight Club</li>
+        <li>Star Wars Ep. IV</li>
+        <li>Spiderman: Into the Spiderverse</li>
+        <li>Godzilla vs. Mecha-Godzilla</li>
+        <li>A Bug's Life</li>
+      </ol>
+    ),
   },
   {
     title: "Grocery List",
-    description:
-    <ul>
-      <li>"Milk"</li>
-      <li>"Eggs"</li>
-      <li>"Butter"</li>
-      <li>"Bread"</li>
-      <li>"Cheese"</li>
-      <li>"Beer"</li>
-      <li>"Taco Shells"</li>
-      <li>"Orange Juice"</li>
-    </ul>
+    description: (
+      <ul>
+        <li>Milk</li>
+        <li>Eggs</li>
+        <li>Butter</li>
+        <li>Bread</li>
+        <li>Cheese</li>
+        <li>Beer</li>
+        <li>Taco Shells</li>
+        <li>Orange Juice</li>
+      </ul>
+    ),
   },
   {
-    title: "To-Do List",
-    description:
-    <ol>
-      <li>"Update Resume"</li>
-      <li>"Attend Career Webinar"</li>
-      <li>"Edit Web Portfolio"</li>
-      <li>"Do Laundry"</li>
-      <li>"Submit Final Project"</li>
-    </ol>
+    title: "How to Test a Font",
+    description: (
+      <p>
+        lorem ipsum dolor sit, amet consectetur adipiscing elit. fugiat
+        perspiciatis, debitis a perferendis error quaerat, nulla exercitationem
+        minus, quam libero in ab obcaecati praesentium hic ipsum possimus
+        voluptate modi eius?
+      </p>
+    ),
   },
 ];
 
@@ -77,10 +79,11 @@ const Homebody = () => {
     },
 
     card: {
-      border: `5px solid ${theme.colorScheme === "dark"
+      border: `5px solid ${
+        theme.colorScheme === "dark"
           ? theme.colors.dark[5]
           : theme.colors.gray[1]
-        }`,
+      }`,
     },
 
     cardTitle: {
@@ -105,7 +108,8 @@ const Homebody = () => {
       </Group>
 
       <Title order={2} className={classes.title} align="center" mt="lg">
-        Welcome to Forget-Me-Not, a user-friendly note taking, list making utility!
+        Welcome to Forget-Me-Not, a user-friendly note taking, list making
+        utility!
       </Title>
 
       <Text
@@ -114,7 +118,8 @@ const Homebody = () => {
         align="center"
         mt="md"
       >
-        Featured below are some common uses, sign-up today to begin creating and sharing with other users.
+        Featured below are some common uses, sign-up today to begin creating and
+        sharing with other users.
       </Text>
 
       <SimpleGrid
@@ -145,4 +150,3 @@ const Homebody = () => {
 };
 
 export default Homebody;
-
