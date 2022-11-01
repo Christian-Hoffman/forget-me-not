@@ -278,7 +278,7 @@ const Profile = () => {
 
   //Rendering Note Body in pure HTML
   const renderNoteBody = (note) => {
-    return <div dangerouslySetInnerHTML={{ __html: note.body }} />;
+    return <div style={styles.notebody} dangerouslySetInnerHTML={{ __html: note.body }} />;
   };
 
   const styles = {
@@ -286,8 +286,8 @@ const Profile = () => {
       display: "flex",
       justifyContent: "center",
     },
-    card: {
-      padding: "20px",
+    notebody: {
+      padding: "10px"
     },
   };
   return (
@@ -307,11 +307,12 @@ const Profile = () => {
             return (
               <Card
                 shadow="lg"
-                p="lg"
+                p="sm"
+                m="sm" 
                 radius="md"
                 withBorder
                 key={note._id}
-                style={styles.card}
+                // style={styles.card}
               >
                 <Card.Section>
                   <Group position="left">
@@ -319,11 +320,11 @@ const Profile = () => {
                     <Title order={2}>{note.title}</Title>
                   </Group>
                   {renderNoteBody(note)}
-                  <Text>{note.createdAt}</Text>
-                  <Button onClick={() => handleDeleteNote(note._id)}>
+                  <Text m="sm">{note.createdAt}</Text>
+                  <Button m="sm" onClick={() => handleDeleteNote(note._id)}>
                     Delete
                   </Button>
-                  <Button onClick={() => editingNoteInterface(note._id)}>
+                  <Button m="sm" onClick={() => editingNoteInterface(note._id)}>
                     Edit
                   </Button>
                 </Card.Section>
@@ -334,6 +335,8 @@ const Profile = () => {
           <>
             <Chip.Group position="center">
               <Chip
+                m="md"
+                p="sm"
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
@@ -374,18 +377,19 @@ const Profile = () => {
           </>
         )}
       </Container>
-      ;{/* LISTS */}
+      {/* LISTS */}
       <Container>
         {!listEditMode ? (
           data.me.lists.map((list) => {
             return (
               <Card
                 shadow="lg"
-                p="lg"
+                p="sm"
+                m="sm" 
                 radius="md"
                 withBorder
                 key={list._id}
-                style={styles.card}
+                // style={styles.card}
               >
                 <Card.Section>
                   <Group position="left">
@@ -395,13 +399,13 @@ const Profile = () => {
 
                   <Text>
                     {list.isOrdered ? (
-                      <List type="ordered">
+                      <List p="sm" type="ordered">
                         {list.listItems.map((i) => (
                           <List.Item>{[i]}</List.Item>
                         ))}
                       </List>
                     ) : (
-                      <List>
+                      <List  m="sm">
                         {list.listItems.map((i) => (
                           <List.Item>{[i]}</List.Item>
                         ))}
@@ -409,11 +413,11 @@ const Profile = () => {
                     )}
                   </Text>
 
-                  <Text>{list.createdAt}</Text>
-                  <Button onClick={() => handleDeleteList(list._id)}>
+                  <Text m="sm">{list.createdAt}</Text>
+                  <Button  m="sm"  onClick={() => handleDeleteList(list._id)}>
                     Delete
                   </Button>
-                  <Button onClick={() => editingListInterface(list._id)}>
+                  <Button  m="sm"  onClick={() => editingListInterface(list._id)}>
                     Edit
                   </Button>
                 </Card.Section>
@@ -424,6 +428,7 @@ const Profile = () => {
           <>
             <Chip.Group position="center">
               <Chip
+                m="sm"
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
@@ -446,6 +451,7 @@ const Profile = () => {
               // className={classes.listType}
             >
               <Chip
+              m="sm"
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
@@ -483,7 +489,7 @@ const Profile = () => {
                   </Droppable>
                 </DragDropContext>
 
-                <Group position="center" mt="md">
+                <Group position="left" mt="md">
                   <Button
                     onClick={() =>
                       listForm.insertListItem("list", { item: "" })
@@ -494,16 +500,16 @@ const Profile = () => {
                 </Group>
 
                 {/* FORM VALUES, NOT NEEDED ON PAGE, USED FOR TESTING */}
-                <Text size="sm" weight={500} mt="md">
+                {/* <Text size="sm" weight={500} mt="md">
                   Form values:
                 </Text>
-                <Code block>{JSON.stringify(listForm.values, null, 2)}</Code>
+                <Code block>{JSON.stringify(listForm.values, null, 2)}</Code> */}
               </Box>
 
               {/* SUBMIT BUTTON FOR LIST */}
               <Box sx={{ maxWidth: 300 }} mx="auto">
                 <Group position="right" mt="md">
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit">Save</Button>
                 </Group>
               </Box>
             </form>
