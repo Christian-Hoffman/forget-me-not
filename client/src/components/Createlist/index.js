@@ -127,7 +127,8 @@ const Createlist = () => {
           <Grid.Col md={3} lg={3}>
             SETTINGS
             <Chip.Group position="center">
-              <Chip
+              <Chip 
+                sx={{margin:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
@@ -136,6 +137,7 @@ const Createlist = () => {
                 Public
               </Chip>
               <Chip
+              sx={{marginBottom:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="2"
@@ -146,6 +148,7 @@ const Createlist = () => {
             </Chip.Group>
             <Chip.Group position="center">
               <Chip
+              sx={{marginTop:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="2"
@@ -154,6 +157,7 @@ const Createlist = () => {
                 Note
               </Chip>
               <Chip
+              sx={{marginBottom:'5px'}}
                 id="listCheckBox"
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
@@ -255,10 +259,10 @@ const Createlist = () => {
             // NOTE SECTION
             <Container>
               <form onSubmit={handleNoteSubmit}>
-                <MediaQuery smallerThan={"sm"} styles={{ marginRight: "0px" }}>
+                <MediaQuery smallerThan={"md"} styles={{ marginRight: "0px" }}>
                 <Input placeholder="Title" ref={noteTitleRef} sx={{ marginRight:'-325px' }}  />
                 </MediaQuery>
-              <MediaQuery smallerThan={"sm"} styles={{ marginRight: "0px" }}>
+              <MediaQuery smallerThan={"md"} styles={{ marginRight: "0px" }}>
                 <RichTextEditor
                   value={initialValue}
                   ref={textAreaRef}
