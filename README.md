@@ -24,9 +24,9 @@ New technology employed: Mantine as our component library
 
 ## Installation
 <!-- TODO: Finish installation instructions -->
-Run 'npm i' within the console, located at the root level of the directory. This will pull in the necessary node modules/packages from the root, client, and server level package.json files. 
+Run `npm i` within the console, located at the root level of the directory. This will pull in the necessary node modules/packages from the root, client, and server level package.json files. 
 
-From this point, run "npm run build" to build out site, followed by "npm run start" to initialize application locally. 
+From this point, run `npm run build` to build out site, followed by `npm run start` to initialize application locally. 
 
 Alternatively, the published site is available via the deployed heroku link above. Simply create a new user via the "Signup" tab to begin creating. 
 
