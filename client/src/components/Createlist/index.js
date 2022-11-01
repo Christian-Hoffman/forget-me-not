@@ -120,10 +120,10 @@ const Createlist = () => {
   ));
 
   return (
-    <Container>
+    <Container sx={{marginBottom:'500px'}}>
       <Grid>
         {/* CHOOSE SETTINGS SECTION */}
-        <Container align="center" fluid>
+        <Container  fluid>
           <Grid.Col md={3} lg={3}>
             SETTINGS
             <Chip.Group position="center">
@@ -192,19 +192,19 @@ const Createlist = () => {
           </Grid.Col>
         </Container>
 
-        <Divider size="lg" orientation="vertical" />
+        <Divider size="lg" orientation="vertical" sx={{ justifyContent:'center' }}/>
         
         {/* CREATE NOTE OR LIST SECTION */}
-        <Container align="center" fluid>
-          <Grid.Col md={9} lg={9}>
-            create
+        <Container  fluid>
+          <Grid.Col md={5} lg={5} >
+            CREATE
           </Grid.Col>
           {visible ? (
             // LIST SECTION
             <Container>
               <form onSubmit={handleListSubmit}>
                 <Input placeholder="Title" ref={listTitleRef} />
-                <Box sx={{ maxWidth: 500 }} mx="auto">
+                <Box sx={{ maxWidth:500 }} mx="auto">
                   <DragDropContext
                     onDragEnd={({ destination, source }) =>
                       listForm.reorderListItem("list", {
@@ -255,19 +255,24 @@ const Createlist = () => {
             // NOTE SECTION
             <Container>
               <form onSubmit={handleNoteSubmit}>
-                <Input placeholder="Title" ref={noteTitleRef} />
+                <MediaQuery smallerThan={"sm"} styles={{ marginRight: "0px" }}>
+                <Input placeholder="Title" ref={noteTitleRef} sx={{ marginRight:'-325px' }}  />
+                </MediaQuery>
+              <MediaQuery smallerThan={"sm"} styles={{ marginRight: "0px" }}>
                 <RichTextEditor
                   value={initialValue}
                   ref={textAreaRef}
                   id="rte"
                   align="left"
+                  sx={{ marginRight:'-325px' }}
                   controls={[
                     ["bold", "italic", "underline", "strike", "clean"],
                     ["h1", "h2", "h3", "h4"],
                     ["link", "blockquote", "codeBlock"],
                     ["alignLeft", "alignCenter", "alignRight"],
                   ]}
-                />
+                  />
+                  </MediaQuery>
                 {/* SUBMIT BUTTON FOR NOTE */}
                 <Box sx={{ maxWidth: 300 }} mx="auto">
                   <Group position="right" mt="md">
