@@ -1,6 +1,8 @@
 import { createStyles, Container, Group, Anchor } from '@mantine/core';
 import { MantineLogo } from '@mantine/ds';
 import { Link } from 'react-router-dom';
+import Banner from "./photos/Banner.png"
+
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -43,7 +45,6 @@ const Footer = () => {
             <MantineLogo 
             width={200}
             fit="contain"/>
-            <p>Copyright &copy; 2022</p>
             <Anchor
               color="dimmed"
               key="Fun Link"
@@ -84,8 +85,12 @@ const Footer = () => {
             >
               GitHub
             </Anchor>
+            <p>Copyright &copy; 2022</p>
           </Group>
         </Container>
+      </div>
+      <div>
+        <img src={Banner} alt="Banner of Flowers" style={{width: "100%"}}></img>
       </div>
     </footer>
   );
