@@ -4,8 +4,7 @@
 2. [Tech Use](#tech-use)
 3. [Installation](#installation)
 4. [Visuals](#visuals)
-5. [License](#license)
-6. [Contributing](#contributing)
+5. [Contributing](#contributing)
 
 ## Description
 <!-- TODO: Describe Project -->
@@ -31,13 +30,9 @@ From this point, run `npm run build` to build out site, followed by `npm run sta
 Alternatively, the published site is available via the deployed heroku link above. Simply create a new user via the "Signup" tab to begin creating. 
 
 ## Visuals
-![]()
-![]()
-![]()
-![]()
-## License
-<!-- TODO: Add license -->
-<!-- This application is licensed with the MIT License. -->
+![HomePage](./image/readme-sc-home.png)
+![Create](./image/readme-sc-create.png)
+![Profile](./image/readme-sc-profile.png)
 
 ## Contributing 
 Team members:

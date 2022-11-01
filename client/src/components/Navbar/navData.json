@@ -10,7 +10,7 @@
         "to": "/users/:id"
       },
       {
-        "label": "New Post",
+        "label": "Create",
         "to": "/create"
       },
       {
@@ -29,11 +29,11 @@
       },
       {
         "label": "Login",
-        "to": "/login"
+        "to": "/"
       },
       {
         "label": "Signup",
-        "to": "/signup"
+        "to": "/"
       }
     ]
   }
