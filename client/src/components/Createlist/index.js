@@ -124,45 +124,49 @@ const Createlist = () => {
       <Grid>
         {/* CHOOSE SETTINGS SECTION */}
         <Container  fluid>
-          <Grid.Col md={3} lg={3}>
+          <Grid.Col md={3} lg={3} style={{"display": "inline"}}>
             SETTINGS
-            <Chip.Group position="center">
+            <Chip.Group position="center" style={{"marginBottom": "20px", "marginTop": "20px"}}>
               <Chip 
-                sx={{margin:'5px'}}
+                // sx={{margin:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
                 onClick={() => setVisibility(true)}
+                style={{"display": "inline"}}
               >
                 Public
               </Chip>
               <Chip
-              sx={{marginBottom:'5px'}}
+              // sx={{marginBottom:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="2"
                 onClick={() => setVisibility(false)}
+                style={{"display": "inline"}}
               >
                 Private
               </Chip>
             </Chip.Group>
-            <Chip.Group position="center">
+            <Chip.Group position="center" style={{"marginBottom": "20px"}}>
               <Chip
-              sx={{marginTop:'5px'}}
+              // sx={{marginTop:'5px'}}
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="2"
                 onClick={() => setVisible(false)}
+                style={{"display": "inline"}}
               >
                 Note
               </Chip>
               <Chip
-              sx={{marginBottom:'5px'}}
+              // sx={{marginBottom:'5px'}}
                 id="listCheckBox"
                 checked={checked}
                 onChange={() => setChecked((v) => !v)}
                 value="1"
                 onClick={() => setVisible(true)}
+                style={{"display": "inline"}}
               >
                 List
               </Chip>
@@ -178,6 +182,7 @@ const Createlist = () => {
                   onChange={() => setChecked((v) => !v)}
                   value="1"
                   onClick={() => setOrderType(true)}
+                  style={{"display": "inline"}}
                 >
                   Ordered
                 </Chip>
@@ -186,6 +191,7 @@ const Createlist = () => {
                   onChange={() => setChecked((v) => !v)}
                   value="2"
                   onClick={() => setOrderType(false)}
+                  style={{"display": "inline"}}
                 >
                   Unordered
                 </Chip>
@@ -200,7 +206,7 @@ const Createlist = () => {
         
         {/* CREATE NOTE OR LIST SECTION */}
         <Container  fluid>
-          <Grid.Col md={5} lg={5} >
+          <Grid.Col md={5} lg={5} style={{"display": "inline"}}>
             CREATE
           </Grid.Col>
           {visible ? (

@@ -317,7 +317,7 @@ const Profile = () => {
                 <Card.Section>
                   <Group position="left">
                     <div></div>
-                    <Title order={2}>{note.title}</Title>
+                    <Title order={2} style={{"padding": "14px"}}>{note.title}</Title>
                   </Group>
                   {renderNoteBody(note)}
                   <Text m="sm">{note.createdAt}</Text>
@@ -394,7 +394,7 @@ const Profile = () => {
                 <Card.Section>
                   <Group position="left">
                     <div></div>
-                    <Title order={2}>{list.title}</Title>
+                    <Title order={2} style={{"padding": "14px"}}>{list.title}</Title>
                   </Group>
 
                   <Text>
